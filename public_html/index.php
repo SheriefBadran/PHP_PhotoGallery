@@ -16,19 +16,21 @@
 
 	$sessionModel = new SessionModel();
 	$loginController = new LoginController();
-	$adminNavController = new AdminNavController($sessionModel);
+	$photoUploadController = new PhotoUploadController();
+	$adminNavController = new AdminNavController($sessionModel, $photoUploadController);
 	$adminNavView = new AdminNavView();
 
-	// $adminNavView publishes to $adminNavController
+	// $adminNavView publishes to $adminNavController (admin nav choises).
 	$adminNavView->attach($adminNavController);
 	$adminNavView->updateNavChoices();
 
-	// $adminNavController publishes to $loginController
-	$adminNavController->attach($loginController);
-	// $adminNavController->updateLogout();
+	// $adminnavView publishes to $loginController (if user clicks logout).
+	$adminNavView->attach($loginController);
+	$adminNavView->updateLogoutAction();
+
 
 	// Run Application
-	$loginController->RunLoginLogic();
+	$loginController->run();
 	// $loginViewHMTL = $loginView->renderLoginForm();
 
 

@@ -9,6 +9,7 @@
 		private $memberView;
 		private $userModel;
 		private static $hashString = "sha256";
+		private static $actionLogout = 'logout';
 
 		function __construct () {
 
@@ -18,7 +19,7 @@
 			$this->userRepository = new UserRepository();
 		}
 
-		public function RunLoginLogic () {
+		public function run () {
 
 			global $remote_ip;
 			global $b_ip;
@@ -157,15 +158,19 @@
 			return false;
 		}
 
-		public function update (Publisher $publisher) {
+		public function subscribe (Publisher $publisher) {
 
-			// AdminNavView publishes wich nav choises the user made in the menu.
-			var_dump($publisher->getLogout()); die();
+			
+			if ($this->sessionModel->isLoggedIn() && $publisher->publishLogoutAction() === self::$actionLogout) {
+
+				$this->logoutUser(true);
+			}
 		}
 
 		protected function logoutUser ($isDefaultLogout = true) {
 
-			$this->memberView->LogoutUser();
+			$this->adminNavView->logoutUser();
 			$this->loginView->RenderLogoutView($isDefaultLogout);
+			exit;
 		}
 	}

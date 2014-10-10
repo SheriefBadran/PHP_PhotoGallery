@@ -8,6 +8,7 @@
 		private $sessionModel;
 		private static $action = 'action';
 		private static $actionUpload = 'upload';
+		private static $actionEditGallery = 'editgallery';
 		private static $actionErrorlog = 'errorlog';
 		private static $actionLogout = 'logout';
 		private static $defaultLoginSuccessMessage = "You are successfully logged in.";
@@ -41,7 +42,8 @@
 			$html .= $successMessage;
 			$html .= '<nav>';
 			$html .= 	'<ul>';
-			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionUpload . '>Upload new Photo</a></li>';
+			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionUpload . '>Upload new photo</a></li>';
+			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionEditGallery . '>Edit gallery</a></li>';
 			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionErrorlog . '>View error log</a></li>';
 			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionLogout . '>Logout</a></li>';
 			$html .= 	'</ul>';
@@ -83,7 +85,21 @@
 			}
 		}
 
-		public function getNavChoices () {
+		public function publishNavChoices () {
+
+			return $this->actions;
+		}
+
+		public function updateLogoutAction () {
+
+			if (isset($_GET[self::$action]) && $_GET[self::$action] === self::$actionLogout) {
+				
+				$this->actions = self::$actionLogout;
+				$this->notify();
+			}
+		}
+
+		public function publishLogoutAction () {
 
 			return $this->actions;
 		}

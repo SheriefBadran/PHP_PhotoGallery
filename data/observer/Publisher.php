@@ -21,7 +21,7 @@
 		public function notify () {
 
 			foreach ($this->subscribers as $subscriber) {
-				$subscriber->update($this);
+				$subscriber->subscribe($this);
 			}
 		}
 	}

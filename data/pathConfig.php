@@ -33,15 +33,18 @@
 	require_once(HelperPath.DS.'interfaces'.DS.'iPublisher.php');
 	require_once(HelperPath.DS.'interfaces'.DS.'iSubscriber.php');
 
-	// ABSTRACT OBSERVER CLASSES
+	// REQUIRE OBSERVER CLASSES
+
+	// abstract
 	require_once(HelperPath.DS.'observer'.DS.'PublisherBase.php');
 	require_once(HelperPath.DS.'observer'.DS.'SubscriberBase.php');
 
-	// OBSERVER CLASSES
+	// non abstract
 	require_once(HelperPath.DS.'observer'.DS.'Publisher.php');
 
 	// REQUIRE CONTROLERS
 	require_once(ControllerPath.DS.'LoginController.php');
+	require_once(ControllerPath.DS.'PhotoUploadController.php');
 	require_once(ControllerPath.DS.'AdminNavController.php');
 
 	// REQUIRE MODELS

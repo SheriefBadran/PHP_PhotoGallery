@@ -1,5 +1,5 @@
 <?php
 	interface iSubscriber {
 
-		function update (Publisher $publisher);
+		function subscribe (Publisher $publisher);
 	}
