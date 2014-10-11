@@ -51,11 +51,14 @@
 	require_once(ModelPath.DS.'SessionModel.php');
 	require_once(ModelPath.DS.'UserRepository.php');
 	require_once(ModelPath.DS.'UserModel.php');
+	require_once(ModelPath.DS.'FileModel.php');
+	require_once(ModelPath.DS.'PhotoFileModel.php');
 
 	// REQUIRE VIEWS
 	require_once(ViewPath.DS.'CookieStorage.php');
 	require_once(HelperPath.DS.'HTMLview.php');
 	require_once(ViewPath.DS.'LoginView.php');
 	require_once(ViewPath.DS.'AdminNavView.php');
+	require_once(ViewPath.DS.'PhotoUploadView.php');
 
 

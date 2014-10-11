@@ -76,7 +76,7 @@
 			echo $this->mainView->echoHTML($adminHTML);
 		}
 
-		public function updateNavChoices () {
+		public function updateChosenMenuItem () {
 
 			if (isset($_GET[self::$action])) {
 				
@@ -85,10 +85,11 @@
 			}
 		}
 
-		public function publishNavChoices () {
+		public function publishChosenMenuItem () {
 
 			return $this->actions;
 		}
+
 
 		public function updateLogoutAction () {
 

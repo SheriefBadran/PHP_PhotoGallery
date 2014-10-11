@@ -1,6 +1,6 @@
 <?php
 	
-	class AdminNavController extends Publisher implements iSubscriber {
+	class AdminNavController implements iSubscriber {
 
 		private $sessionModel;
 		private $photoUploadController;
@@ -21,7 +21,7 @@
 			// AdminNavView publishes wich nav choises the user made in the menu.
 			if ($this->sessionModel->isLoggedIn()) {
 				
-				$this->runNavigationController($publisher->publishNavChoices());
+				$this->runNavigationController($publisher->publishChosenMenuItem());
 			}
 
 			return false;
@@ -32,7 +32,7 @@
 			switch ($navChoice) {
 
 				case self::$actionUpload:
-					var_dump("upload Image");
+
 					$this->photoUploadController->run();
 					break;
 
