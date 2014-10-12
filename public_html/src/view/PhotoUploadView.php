@@ -10,6 +10,7 @@
 		private static $actionEditGallery = 'editgallery';
 		private static $actionErrorlog = 'errorlog';
 		private static $actionLogout = 'logout';
+		private static $photoCaption = 'caption';
 		private static $formActionUrl = 'src/view/PhotoUploadView.php';
 
 		public function __construct (HTMLView $htmlView, CookieStorage $cookieStorage, SessionModel $sessionModel) {
@@ -48,6 +49,8 @@
 			$html .= '<form action="" enctype="multipart/form-data" method="POST">';
 			$html .= 	'<input type="hidden" name="MAX_FILE_SIZE" value="1000000">';
 			$html .= 	'<input type="file" name="fileupload">';
+			$html .=	'<label>Caption: </label>';
+			$html .=	'<input type="text" name="caption"> ';
 			$html .= 	'<input type="submit" name="upload" value="Upload">';
 			$html .= '</form>';
 
@@ -66,14 +69,12 @@
 			return isset($_POST[self::$actionUpload]);
 		}
 
-		// public function updateUploadAction () {
+		public function getPhotoCaption () {
 
-		// 	var_dump($_POST['upload']);
-		// 	if (isset($_POST['upload'])) {
-		// 		var_dump('test');
-		// 		$this->actions = $_POST['upload'];
-		// 		$this->notify();
-		// 	}
-		// }
+			if (isset($_POST[self::$photoCaption])) {
+				
+				return $_POST[self::$photoCaption];
+			}
+		}
 
 	}

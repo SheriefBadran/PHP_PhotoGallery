@@ -3,6 +3,7 @@
 	class PhotoFileModel extends FileModel {
 
 		public $errors = array();
+		private $dataResult = array();
 		private static $destinationPath = "../data/uploads";
 
 		protected function validatePhotoMimeType ($filePath) {
@@ -26,23 +27,23 @@
 
 		public function upload ($filesKeyIndex) {
 
-			$dataResult = $this->getFileData($filesKeyIndex);
+			$this->dataResult = $this->getFileData($filesKeyIndex);
 
-			if (!is_array($dataResult)) {
+			if (!is_array($this->dataResult)) {
 				
-				$this->errors[] = $dataResult;
+				$this->errors[] = $this->dataResult;
 
 				return false;
 			}
 				
-			$validMimeType = $this->validatePhotoMimeType($dataResult[self::$tmpFile]);
+			$validMimeType = $this->validatePhotoMimeType($this->dataResult[self::$tmpFile]);
 
 			if ($validMimeType === false) {
 
 				$this->errors[] = 'The file is not a valid photo.';
 			}
 
-			if (move_uploaded_file($dataResult[self::$tmpFile], self::$destinationPath . "/" . $dataResult[self::$actualFileName])) {
+			if (move_uploaded_file($this->dataResult[self::$tmpFile], self::$destinationPath . "/" . $this->dataResult[self::$actualFileName])) {
 
 				return true;
 			}
@@ -51,6 +52,11 @@
 				$this->errors[] = $uploadErrors[$_FILES[$filesKeyIndex]['error']];
 				return false;
 			}
+		}
+
+		public function getDataResult () {
+
+			return $this->dataResult;
 		}
 
 		public function printArray (Array $myArray) {

@@ -33,6 +33,7 @@
 
 				case self::$actionUpload:
 
+					$photoRepository = new PhotoRepository();
 					$this->photoUploadController->run();
 					break;
 

@@ -14,16 +14,17 @@
 
 	require_once("../data/pathConfig.php");
 
-	$cookieStorage = new CookieStorage();
-	$sessionModel = new SessionModel();
-	$mainView = new HTMLview();
+	$cookieStorage 		   =    new CookieStorage();
+	$sessionModel 		   =    new SessionModel();
+	$mainView 			   =    new HTMLview();
 
-	$loginController = new LoginController();
-	$photoUploadView = new PhotoUploadView($mainView, $cookieStorage, $sessionModel);
-	$fileModel = new PhotoFileModel();
-	$photoUploadController = new PhotoUploadController($sessionModel, $fileModel, $photoUploadView);
-	$adminNavController = new AdminNavController($sessionModel, $photoUploadController);
-	$adminNavView = new AdminNavView();
+	$loginController 	   = 	new LoginController();
+	$photoUploadView 	   = 	new PhotoUploadView($mainView, $cookieStorage, $sessionModel);
+	$fileModel 			   = 	new PhotoFileModel();
+	$photoRepository 	   = 	new PhotoRepository();
+	$photoUploadController = 	new PhotoUploadController($sessionModel, $fileModel, $photoUploadView, $photoRepository);
+	$adminNavController    = 	new AdminNavController($sessionModel, $photoUploadController);
+	$adminNavView 		   = 	new AdminNavView();
 
 	// $adminNavView publishes to $adminNavController (admin nav choises).
 	$adminNavView->attach($adminNavController);
@@ -32,10 +33,6 @@
 	// $adminnavView publishes to $loginController (if user clicks logout).
 	$adminNavView->attach($loginController);
 	$adminNavView->updateLogoutAction();
-
-	// $photoUploadView->attach($photoUploadController);
-	// $photoUploadView->updateUploadAction();
-
 
 	// Run Application
 	$loginController->run();

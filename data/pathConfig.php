@@ -53,6 +53,8 @@
 	require_once(ModelPath.DS.'UserModel.php');
 	require_once(ModelPath.DS.'FileModel.php');
 	require_once(ModelPath.DS.'PhotoFileModel.php');
+	require_once(ModelPath.DS.'PhotoRepository.php');
+	require_once(ModelPath.DS.'PhotoModel.php');
 
 	// REQUIRE VIEWS
 	require_once(ViewPath.DS.'CookieStorage.php');
