@@ -47,7 +47,7 @@
 			$html .= '</nav>';
 
 			$html .= '<form action="" enctype="multipart/form-data" method="POST">';
-			$html .= 	'<input type="hidden" name="MAX_FILE_SIZE" value="1000000">';
+			$html .= 	'<input type="hidden" name="MAX_FILE_SIZE" value="10000000">';
 			$html .= 	'<input type="file" name="fileupload">';
 			$html .=	'<label>Caption: </label>';
 			$html .=	'<input type="text" name="caption"> ';

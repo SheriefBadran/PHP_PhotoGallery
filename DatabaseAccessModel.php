@@ -4,11 +4,10 @@ require_once(HelperPath.DS.'db/DB_Factory.php');
 
 	class DatabaseAccessModel {
 
-		private static $dbUsername = "root";
-		private static $dbPassword = "root";
-		private static $connectionString = 'mysql:host=localhost;dbname=PhotoGallery';
+		private static $dbUsername = "129463_ew31819";
+		private static $dbPassword = "Qy.q55fc";
+		private static $connectionString = 'mysql:host=photogallery-129463.mysql.binero.se;dbname=129463-photogallery';
 		protected $dbFactory;
-
 		private static $fields = "fields";
 		private static $paramPlaceHolder = "paramPlaceHolder";
 
@@ -98,37 +97,8 @@ require_once(HelperPath.DS.'db/DB_Factory.php');
 				// Check SQL STATE 23000 (Photo name already exist in database).
 				if ((int)$e->getCode() === 23000) {
 					
-					throw new PhotoNameAlreadyExistException("A photo with the name " . $object->getName() . " is already uploaded.");
+					throw new PhotoAlreadyExistException($object->getName() . " is already uploaded.");
 				}
-
-				throw new \Exception($e->getMessage(), (int)$e->getCode());
-			}
-		}
-
-		public function fetchAllAssoc () {
-
-			try {
-
-				$db = $this->dbFactory->createInstance();
-
-				$sql = "SELECT * FROM " . static::$tblName;
-				$query = $db->prepare($sql);
-				$query->execute();
-				$result = $query->fetchAll();
-
-				if (empty($result)) {
-					
-					throw new EmptyRecordException("There are zero results to fetch.");
-				}
-
-				if (!$result) {
-					
-					throw new DatabaseErrorException("fetchAll failed to fetch results");
-				}
-
-				return $result;
-			} 
-			catch (PDOException $e) {
 
 				throw new \Exception($e->getMessage(), (int)$e->getCode());
 			}

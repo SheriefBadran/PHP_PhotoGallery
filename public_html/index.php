@@ -18,12 +18,16 @@
 	$sessionModel 		   =    new SessionModel();
 	$mainView 			   =    new HTMLview();
 
+	$thumbnailList		   =    new ThumbnailList();
+
 	$loginController 	   = 	new LoginController();
 	$photoUploadView 	   = 	new PhotoUploadView($mainView, $cookieStorage, $sessionModel);
 	$fileModel 			   = 	new PhotoFileModel();
-	$photoRepository 	   = 	new PhotoRepository();
-	$photoUploadController = 	new PhotoUploadController($sessionModel, $fileModel, $photoUploadView, $photoRepository);
-	$adminNavController    = 	new AdminNavController($sessionModel, $photoUploadController);
+	$photoRepository 	   = 	new PhotoRepository($thumbnailList);
+	$photoManagementView	   =    new PhotoManagementView($sessionModel);
+	$photoManagementController = new PhotoManagementController($photoRepository, $photoManagementView);
+	$photoUploadController = 	new PhotoUploadController($fileModel, $photoUploadView, $photoRepository, $photoManagementController);
+	$adminNavController    = 	new AdminNavController($sessionModel, $photoUploadController, $photoManagementController);
 	$adminNavView 		   = 	new AdminNavView();
 
 	// $adminNavView publishes to $adminNavController (admin nav choises).

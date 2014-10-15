@@ -4,7 +4,13 @@
 
 		public $errors = array();
 		private $dataResult = array();
-		private static $destinationPath = "../data/uploads";
+		private $uniquePhotoId;
+		private static $destinationPath = PhotoUploadDestinationPath;
+
+		public function getUniquePhotoId () {
+
+			return $this->uniquePhotoId;
+		}
 
 		protected function validatePhotoMimeType ($filePath) {
 
@@ -43,15 +49,56 @@
 				$this->errors[] = 'The file is not a valid photo.';
 			}
 
-			if (move_uploaded_file($this->dataResult[self::$tmpFile], self::$destinationPath . "/" . $this->dataResult[self::$actualFileName])) {
+			if ($dirHandle = opendir(self::$destinationPath)) {
+				
+				if(file_exists(sprintf(self::$destinationPath . '/%s.%s', sha1_file($_FILES['fileupload']['tmp_name']), $validMimeType))) {
 
-				return true;
-			}
-			else {
+					$this->errors[] = 'The photo is already uploaded!';
+					return false;
+				}
 
-				$this->errors[] = $uploadErrors[$_FILES[$filesKeyIndex]['error']];
-				return false;
+				closedir($dirHandle);
 			}
+
+
+
+			// if (move_uploaded_file($this->dataResult[self::$tmpFile], self::$destinationPath . "/" . $this->dataResult[self::$actualFileName])) {
+
+			// 	return true;
+			// }
+			// else {
+
+			// 	$this->errors[] = $uploadErrors[$_FILES[$filesKeyIndex]['error']];
+			// 	return false;
+			// }
+			// Some operations to retrieve the unique file name.
+			$uniqueFilePath = sprintf(self::$destinationPath . '/%s.%s', sha1_file($_FILES['fileupload']['tmp_name']), $validMimeType);
+			$splitFilePath = explode(DIRECTORY_SEPARATOR, $uniqueFilePath);
+			$this->uniquePhotoId = $splitFilePath[count($splitFilePath) - 1];
+
+
+			// Create a name from the photo's binary data.
+			if ($dirHandle = opendir(self::$destinationPath)) {
+
+				if (move_uploaded_file($_FILES['fileupload']['tmp_name'], 
+					sprintf(self::$destinationPath . '/%s.%s', sha1_file($_FILES['fileupload']['tmp_name']), $validMimeType))
+				) {
+
+					return true;
+				}
+				else {
+
+					$this->errors[] = $uploadErrors[$_FILES[$filesKeyIndex]['error']];
+					return false;
+				}
+
+				closedir($dirHandle);
+			}
+		}
+
+		public function unlink ($fileName) {
+
+			return unlink(self::$destinationPath . DIRECTORY_SEPARATOR . $fileName);
 		}
 
 		public function getDataResult () {

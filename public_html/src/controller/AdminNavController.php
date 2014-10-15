@@ -4,16 +4,20 @@
 
 		private $sessionModel;
 		private $photoUploadController;
+		private $photoManagementController;
 
 		private static $actionUpload = 'upload';
 		private static $actionEditGallery = 'editgallery';
 		private static $actionErrorlog = 'errorlog';
 		private static $actionLogout = 'logout';
 
-		public function __construct(SessionModel $sessionModel, PhotoUploadController $photoUploadController) {
+		public function __construct(SessionModel $sessionModel, 
+									PhotoUploadController $photoUploadController,
+									PhotoManagementController $photoManagementController) {
 
 			$this->sessionModel = $sessionModel;
 			$this->photoUploadController = $photoUploadController;
+			$this->photoManagementController = $photoManagementController;
 		}
 
 		public function subscribe (Publisher $publisher) {
@@ -33,12 +37,11 @@
 
 				case self::$actionUpload:
 
-					$photoRepository = new PhotoRepository();
 					$this->photoUploadController->run();
 					break;
 
 				case self::$actionEditGallery:
-					var_dump("view photos");
+					$this->photoManagementController->run();
 					break;
 				
 				case self::$actionErrorlog:
