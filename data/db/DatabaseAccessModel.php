@@ -4,6 +4,9 @@ require_once(HelperPath.DS.'db/DB_Factory.php');
 
 	class DatabaseAccessModel {
 
+		// private static $dbUsername = "129463_ew31819";
+		// private static $dbPassword = "Qy.q55fc";
+		// private static $connectionString = 'mysql:host=photogallery-129463.mysql.binero.se;dbname=129463-photogallery';
 		private static $dbUsername = "root";
 		private static $dbPassword = "root";
 		private static $connectionString = 'mysql:host=localhost;dbname=PhotoGallery';

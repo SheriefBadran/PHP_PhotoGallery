@@ -7,6 +7,7 @@
 
 	// Define a project root path.
 	defined('ProjectRootPath') ? null : define('ProjectRootPath', DS.'Applications'.DS.'MAMP'.DS.'htdocs'.DS.'www'.DS.'git'.DS.'PHP_PhotoGallery');
+	// defined('ProjectRootPath') ? null : define('ProjectRootPath', DS.'storage'.DS.'content'.DS.'63'.DS.'129463'.DS.'sheriefbadran.com');
 
 	// Define helper path.
 	defined('HelperPath') ? null : define('HelperPath', ProjectRootPath.DS.'data');
@@ -20,6 +21,9 @@
 														   ProjectRootPath.DS.'data'.DS.'uploads');
 
 	defined('ThumbnailPath') ? null : define('ThumbnailPath', ProjectRootPath.DS.'data'.DS.'thumbnails');
+
+	defined('LocalURL') ? null : define('LocalURL', "http://" . $_SERVER['HTTP_HOST'].DS.'www'.DS.'git'.DS.'PHP_PhotoGallery'.DS.'data'.DS.'thumbnails');
+	defined('ServerURL') ? null : define('ServerURL', "http://" . $_SERVER['HTTP_HOST'] . DS . 'data' . DS . 'thumbnails');
 
 	// REQUIRE NEEDED FILES BELOW.
 

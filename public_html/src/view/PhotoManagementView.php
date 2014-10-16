@@ -79,7 +79,7 @@
 				$html .= 	'<td><img src=' . $thumbnail->getSRC() . '></td>';
 				$html .= 	'<td>' . $thumbnail->getName() . '</td>';
 				$html .= 	'<td>' . $thumbnail->getCaption() . '</td>';
-				$html .= 	'<td>' . $thumbnail->getSize() . '</td>';
+				$html .= 	'<td>' . $thumbnail->getFormattedSize() . '</td>';
 				$html .= 	'<td>' . $thumbnail->getType() . '</td>';
 				$html .= 	'<td>';
 				$html .=		'<a href=?' . self::$action . "=" . self::$actionEditComments . '>';

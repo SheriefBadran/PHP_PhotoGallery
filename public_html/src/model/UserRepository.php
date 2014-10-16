@@ -31,7 +31,12 @@ require_once(ModelPath.DS.'UserModel.php');
 			}
 			catch (PDOException $e) {
 
-				throw ('DB Error!');
+				if ((int)$e->getCode() === 2002) {
+					
+					throw new DatabaseErrorException("Cant't connect to mysql server. Please check connection string.");
+				}
+
+				throw new \Exception($e->getMessage(), (int)$e->getCode());
 			}
 		}
 
@@ -60,7 +65,12 @@ require_once(ModelPath.DS.'UserModel.php');
 			}
 			catch (PDOException $e) {
 
-				throw ('DB Error!');
+				if ((int)$e->getCode() === 2002) {
+					
+					throw new DatabaseErrorException("Cant't connect to mysql server. Please check connection string.");
+				}
+
+				throw new \Exception($e->getMessage(), (int)$e->getCode());
 			}	
 		}
 	}

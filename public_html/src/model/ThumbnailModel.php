@@ -7,16 +7,23 @@
 		private $uniqueId;
 		private $name;
 		private $size;
+		private $formattedSize;
 		private $caption;
 		private $type;
 		private $thumbnailWidth;
 		private $thumbnailHeight;
 
+		private static $photoTypeRegex = '/[.]jpg$/';
 		private static $photoPath = PhotoUploadDestinationPath;
 		private static $thumbnailPath = ThumbnailPath;
 
-		private static $absoluteSrcPrefix = "http://localhost:8888/www/git/PHP_PhotoGallery/data/thumbnails";
-		private static $src;
+		// For local environment
+		private static $localhostURL = LocalURL;
+
+		// For server environment
+		private static $serverURL = ServerURL;
+
+		private $src;
 
 		public function __construct (Array $photoRecord, $thumbnailWidth, $mimeType) {
 
@@ -27,9 +34,16 @@
 			$this->caption = $photoRecord['caption'];
 			$this->type = $mimeType;
 			$this->thumbnailWidth = $thumbnailWidth;
-			$this->src = self::$absoluteSrcPrefix . DS . $this->uniqueId;
-			// http://localhost:8888/www/git/PHP_PhotoGallery/data/thumbnails/dee01b789e017ad2663fb170ee9f102628ad4d78.jpg
 
+			if ($_SERVER['HTTP_HOST'] === 'localhost:8888') {
+				
+
+			}
+
+			$this->src = ($_SERVER['HTTP_HOST'] === 'localhost:8888') ? self::$localhostURL . DS . $this->uniqueId :
+																		self::$serverURL . DS . $this->uniqueId;
+
+			$this->formattedSize = $this->setFormattedSize();
 			$this->createThumbnail();
 		}
 
@@ -41,20 +55,41 @@
 
 		protected function createImageIdentifier () {
 
-			if (preg_match('/[.]jpg$/', $this->photoRecord['uniqueId'])) {
+			if (preg_match(self::$photoTypeRegex, $this->uniqueId)) {
 				
 				$image = imagecreatefromjpeg(PhotoUploadDestinationPath . DS . $this->uniqueId);
 			}
-			else if (preg_match('/[.]gif$/', $this->uniqueId)) {
+			else if (preg_match($photoTypeRegex, $this->uniqueId)) {
 
 				$image = imagecreatefromgif(PhotoUploadDestinationPath . DS . $this->uniqueId);
 			}
-			else if (preg_match('/[.]png$/', $this->uniqueId)) {
+			else if (preg_match($photoTypeRegex, $this->uniqueId)) {
 
 				$image = imagecreatefrompng(PhotoUploadDestinationPath . DS . $this->uniqueId);
 			}
 
 			return $image;
+		}
+
+		public function setFormattedSize () {
+
+
+			if ($this->size < 1024) {
+
+				$formattedSize = "$this->size bytes";
+			}
+			else if ($this->size < 1048576) {
+
+				$sizeInKb = round($this->size/1024);
+				$formattedSize = "$sizeInKb KB";
+			}
+			else {
+
+				$sizeInMb = round($this->size/1048576, 1);
+				$formattedSize = "$sizeInMb MB";
+			}
+
+			return $formattedSize;
 		}
 
 		public function createThumbnail() {
@@ -107,6 +142,11 @@
 		public function getSize () {
 
 			return $this->size;
+		}
+
+		public function getFormattedSize () {
+
+			return $this->formattedSize;
 		}
 
 		public function getCaption () {
