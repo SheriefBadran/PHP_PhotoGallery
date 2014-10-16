@@ -136,4 +136,34 @@ require_once(HelperPath.DS.'db/DB_Factory.php');
 				throw new \Exception($e->getMessage(), (int)$e->getCode());
 			}
 		}
+
+		public function countAll () {
+
+			try {
+				
+				$db = $this->dbFactory->createInstance();
+
+				$sql = "SELECT COUNT(*) FROM " . static::$tblName;
+				$query = $db->prepare($sql);
+				$query->execute();
+				$result = $query->fetch();
+
+				if (empty($result)) {
+					
+					throw new EmptyRecordException("There are zero results to fetch.");
+				}
+
+				if (!$result) {
+					
+					throw new DatabaseErrorException("fetchAll failed to fetch results");
+				}
+
+				$sum = (int)array_shift($result);
+				return $sum;
+			} 
+			catch (PDOException $e) {
+				
+				throw new \Exception($e->getMessage(), (int)$e->getCode());
+			}
+		}
 	}

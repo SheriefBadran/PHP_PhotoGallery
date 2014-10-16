@@ -69,7 +69,7 @@
 
 			if (!$result) { return null; }
 
-			$typeId = (int)($result["typeId"]);
+			$typeId = (int)($result[self::$typeId]);
 
 			return new PhotoModel($dataResult, $caption, $typeId, $uniqueId, $photoId);
 		}
@@ -130,7 +130,7 @@
 
 				try {
 
-					$query->execute(array($photoRecord["typeId"]));
+					$query->execute(array($photoRecord[self::$typeId]));
 					$typeResult = $query->fetch();
 				}
 				catch (Exception $e) {
@@ -138,7 +138,53 @@
 					throw new \Exception($e->getMessage(), (int)$e->getCode());
 				}
 
-				$this->thumbnails->add(new ThumbnailModel($photoRecord, $thumbnailWidth, $typeResult['type']));
+				$this->thumbnails->add(new ThumbnailModel($photoRecord, $thumbnailWidth, $typeResult[self::$fileType]));
+			}
+
+			return $this->thumbnails;
+		}
+
+		public function toPaginationList (PaginationModel $paginationModel, $thumbnailWidth) {
+
+			try {
+				
+				$db = $this->dbFactory->createInstance();
+
+				$limit = $paginationModel->getItemsForEachPage();
+				$offset = $paginationModel->getSQLOffset();
+
+				$sql ='SELECT * FROM ' . self::$tblName . ' LIMIT :limit OFFSET :offset';
+
+				/*** run the query ***/
+				$query = $db->prepare($sql);
+				$query->bindParam(':limit', $limit, PDO::PARAM_INT);
+				$query->bindParam(':offset', $offset, PDO::PARAM_INT);
+				$query->execute();
+				$result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+			} 
+			catch (PDOException $e) {
+
+				throw new \Exception($e->getMessage(), (int)$e->getCode());
+			}
+
+			$sql = "SELECT " . self::$fileType .  " FROM " . self::$parentTblName;
+			$sql .= " WHERE " . self::$typeId . " = (?)";
+			$query = $db->prepare($sql);
+			
+			foreach ($result as $photoRecord) {
+
+				try {
+
+					$query->execute(array($photoRecord[self::$typeId]));
+					$typeResult = $query->fetch();
+				}
+				catch (Exception $e) {
+
+					throw new \Exception($e->getMessage(), (int)$e->getCode());
+				}
+
+				$this->thumbnails->add(new ThumbnailModel($photoRecord, $thumbnailWidth, $typeResult[self::$fileType]));
 			}
 
 			return $this->thumbnails;

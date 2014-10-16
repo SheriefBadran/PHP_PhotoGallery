@@ -14,25 +14,26 @@
 
 	require_once("../data/pathConfig.php");
 
-	$cookieStorage 		   =    new CookieStorage();
-	$sessionModel 		   =    new SessionModel();
-	$mainView 			   =    new HTMLview();
+	$cookieStorage 		   =    new CookieStorage(); //using
+	$sessionModel 		   =    new SessionModel(); //using 
+	$mainView 			   =    new HTMLview(); //using
 
-	$thumbnailList		   =    new ThumbnailList();
+	$thumbnailList		   =    new ThumbnailList(); //using
 
 	$loginController 	   = 	new LoginController();
 	$photoUploadView 	   = 	new PhotoUploadView($mainView, $cookieStorage, $sessionModel);
 	$fileModel 			   = 	new PhotoFileModel();
-	$photoRepository 	   = 	new PhotoRepository($thumbnailList);
-	$photoManagementView	   =    new PhotoManagementView($sessionModel, $mainView);
+	$photoRepository 	   = 	new PhotoRepository($thumbnailList); //using
+	$photoManagementView	   =    new PhotoManagementView($mainView, $sessionModel);
 	$photoManagementController = new PhotoManagementController($photoRepository, $photoManagementView, $fileModel);
 	$photoUploadController = 	new PhotoUploadController($fileModel, $photoUploadView, $photoRepository, $photoManagementController);
 	$adminNavController    = 	new AdminNavController($sessionModel, $photoUploadController, $photoManagementController);
 	$adminNavView 		   = 	new AdminNavView();
 
+	$paginationRepository  =   new PaginationRepository();
 	$paginationView		   =   new PaginationView ();
-	$publicGalleryView	   =   new PublicGalleryView($paginationView);
-	$publicGalleryController = new PublicGalleryController($photoRepository, $publicGalleryView);
+	$publicGalleryView	   =   new PublicGalleryView($mainView, $paginationView);
+	$publicGalleryController = new PublicGalleryController($photoRepository, $paginationRepository, $publicGalleryView);
 
 	// $adminNavView publishes to $adminNavController (admin nav choises).
 	$adminNavView->attach($adminNavController);

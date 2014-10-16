@@ -3,11 +3,16 @@
 	class PaginationView {
 
 
-		public function __construct () {
-		}
-
 		public function renderPaginationHTML (PaginationModel $paginationModel) {
 
-
+			switch (variable) {
+				case 'value':
+					# code...
+					break;
+				
+				default:
+					# code...
+					break;
+			}
 		}
 	}

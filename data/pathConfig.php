@@ -71,6 +71,7 @@
 	require_once(ModelPath.DS.'PhotoModel.php');
 	require_once(ModelPath.DS.'ThumbnailModel.php');
 	require_once(ModelPath.DS.'ThumbnailList.php');
+	require_once(ModelPath.DS.'PaginationRepository.php');
 	require_once(ModelPath.DS.'PaginationModel.php');
 
 	// REQUIRE VIEWS

@@ -15,7 +15,7 @@
 
 			$this->itemsEachPage = $itemsEachPage;
 			$this->totalItems = $totalItems;
-			$this->currentItems = $currentItems;
+			$this->currentPage = $currentPage;
 		}
 
 		private function calculateSQLOffset () {
@@ -28,7 +28,8 @@
 			return $this->calculateSQLOffset();
 		}
 
+		public function getItemsForEachPage () {
 
-
-
+			return $this->itemsEachPage;
+		}
 	}

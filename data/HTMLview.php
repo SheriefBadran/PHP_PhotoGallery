@@ -24,7 +24,7 @@ class HTMLview {
 				    <meta http-equiv='content-type' content='text/html; charset=utf-8' />
 				</head>
 				<body>
-					<h1>PhotoGallery Admin Area</h1>
+					<h1>Photo Gallery</h1>
 					$body
 					$date
 				</body>

@@ -18,7 +18,7 @@
 		private static $setDeleteSuccessMessage = 'The photo was successfully deleted.';
 		private static $noPhotosInGalleryResponseMessage = 'Ooops! Not even one photo in the gallery. Go ahead and upload!';
 
-		public function __construct (SessionModel $sessionModel, HTMLview $mainView) {
+		public function __construct (HTMLview $mainView, SessionModel $sessionModel) {
 
 			$this->mainView = $mainView;
 			$this->sessionModel = $sessionModel;
