@@ -25,15 +25,16 @@
 
 			// 1. First render html for all photos with caption and everything.
 			// 2. Then render html for the pagination itself.
+
 			$html = '';
 			foreach ($thumbnailList->toArray() as $thumbnail) {
 				
 				$html .= '<a><img src=' . $thumbnail->getSRC() .'></a>';
 			}
 
-			$this->paginationView->renderPaginationHTML($paginationModel);
+			$paginationHTML = $this->paginationView->renderPaginationHTML($paginationModel);
 
-			$this->mainView->echoHTML($html);
+			$paginationHTML === false ? $this->mainView->echoHTML($html) : $this->mainView->echoHTML($html . $paginationHTML);
 		}
 
 		public function getThumbnailWidth () {

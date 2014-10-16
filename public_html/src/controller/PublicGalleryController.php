@@ -1,6 +1,6 @@
 <?php
 
-	class PublicGalleryController {
+	class PublicGalleryController implements iSubscriber {
 
 		private $photoRepository;
 		private $PaginationRepository;
@@ -23,5 +23,17 @@
 			$thumbnailList = $this->photoRepository->toPaginationList($paginationModel, $thumbnailWidth);
 
 			$this->publicGalleryView->renderGallery($thumbnailList, $paginationModel);
+			// exit;
+		}
+
+		public function subscribe (Publisher $publisher) {
+
+			$thumbnailWidth = $this->publicGalleryView->getThumbnailWidth();
+			$currentPage = $publisher->publishPaginationAction();
+			$totalItems = $this->photoRepository->countAll();
+			$paginationModel = $this->paginationRepository->createPaginationModel($totalItems, $currentPage);
+			$thumbnailList = $this->photoRepository->toPaginationList($paginationModel, $thumbnailWidth);
+			$this->publicGalleryView->renderGallery($thumbnailList, $paginationModel);
+			exit;
 		}
 	}

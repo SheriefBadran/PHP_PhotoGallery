@@ -35,16 +35,9 @@
 	$publicGalleryView	   =   new PublicGalleryView($mainView, $paginationView);
 	$publicGalleryController = new PublicGalleryController($photoRepository, $paginationRepository, $publicGalleryView);
 
-	// $adminNavView publishes to $adminNavController (admin nav choises).
-	$adminNavView->attach($adminNavController);
-	$adminNavView->updateChosenMenuItem();
 
-	// $adminnavView publishes to $loginController (if user clicks logout).
-	$adminNavView->attach($loginController);
-	$adminNavView->updateLogoutAction();
-
-	$photoManagementView->attach($photoManagementController);
-	$photoManagementView->updateDeleteAction();
+	$paginationView->attach($publicGalleryController);
+	$paginationView->updatePaginationPage();
 
 	// Run Application
 	$publicGalleryController->run();
