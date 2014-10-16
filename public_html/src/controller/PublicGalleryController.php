@@ -15,25 +15,20 @@
 			$this->publicGalleryView = $publicGalleryView;
 		}
 
-		public function run () {
+		public function run ($currentPage = 1) {
 
 			$thumbnailWidth = $this->publicGalleryView->getThumbnailWidth();
 			$totalItems = $this->photoRepository->countAll();
-			$paginationModel = $this->paginationRepository->createPaginationModel($totalItems);
+			$paginationModel = $this->paginationRepository->createPaginationModel($totalItems, $currentPage);
 			$thumbnailList = $this->photoRepository->toPaginationList($paginationModel, $thumbnailWidth);
 
 			$this->publicGalleryView->renderGallery($thumbnailList, $paginationModel);
-			// exit;
+			exit;
 		}
 
 		public function subscribe (Publisher $publisher) {
 
-			$thumbnailWidth = $this->publicGalleryView->getThumbnailWidth();
 			$currentPage = $publisher->publishPaginationAction();
-			$totalItems = $this->photoRepository->countAll();
-			$paginationModel = $this->paginationRepository->createPaginationModel($totalItems, $currentPage);
-			$thumbnailList = $this->photoRepository->toPaginationList($paginationModel, $thumbnailWidth);
-			$this->publicGalleryView->renderGallery($thumbnailList, $paginationModel);
-			exit;
+			$this->run($currentPage);
 		}
 	}

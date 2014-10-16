@@ -26,11 +26,12 @@
 			// 1. First render html for all photos with caption and everything.
 			// 2. Then render html for the pagination itself.
 
-			$html = '';
+			$html = '<section>';
 			foreach ($thumbnailList->toArray() as $thumbnail) {
 				
 				$html .= '<a><img src=' . $thumbnail->getSRC() .'></a>';
 			}
+			$html .= '</section>';
 
 			$paginationHTML = $this->paginationView->renderPaginationHTML($paginationModel);
 

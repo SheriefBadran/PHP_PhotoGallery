@@ -14,20 +14,22 @@
 
 			$this->paginationModel = $paginationModel;
 
-			$html = '';
 
-			// render previous link.
+			$html = '<p>';
+
+			// Render previous link.
 			if ($paginationModel->previousPageExist()) {
 
-				$html .= '<a href=index.php?page=' . $paginationModel->getPreviousPage() . '/>&laquo; Previous</a>';
+				$html .= '<a href=index.php?page=' . $paginationModel->getPreviousPage() . '><< Previous</a>';
 			}
 
-			//this is the pagination page-numbers
+			// Pagination page-numbers
 			for ($i=1; $i <= $paginationModel->getTotalPages(); $i++) {
-				//indicate which page is the active current page. Also the current page is not a link
+
+				// Current page is not a link.
 				if ($i == $_GET['page']) {
 
-					$html .= "<p>$i</p>";
+					$html .= "$i";
 				}
 				else {
 
@@ -35,11 +37,13 @@
 				}
 			}
 
-			// render next link.
+			// Render next link.
 			if($paginationModel->nextPageExist()) {
 
-				$html .= '<a href=index.php?page=' . $paginationModel->getNextPage() . '/>Next &raquo; </a>';
+				$html .= '<a href=index.php?page=' . $paginationModel->getNextPage() . '>Next >> </a>';
 			}
+
+			$html .= '</p>';
 
 			return $html;
 		}
