@@ -7,7 +7,7 @@
 		private $uniqueId;
 		private $name;
 		private $size;
-		private $formattedSize;
+		private $formattedSize; // Readable format
 		private $caption;
 		private $type;
 		private $thumbnailWidth;
