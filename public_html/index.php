@@ -30,6 +30,10 @@
 	$adminNavController    = 	new AdminNavController($sessionModel, $photoUploadController, $photoManagementController);
 	$adminNavView 		   = 	new AdminNavView();
 
+	$paginationView		   =   new PaginationView ();
+	$publicGalleryView	   =   new PublicGalleryView($paginationView);
+	$publicGalleryController = new PublicGalleryController($photoRepository, $publicGalleryView);
+
 	// $adminNavView publishes to $adminNavController (admin nav choises).
 	$adminNavView->attach($adminNavController);
 	$adminNavView->updateChosenMenuItem();
@@ -42,19 +46,5 @@
 	$photoManagementView->updateDeleteAction();
 
 	// Run Application
-	$loginController->run();
-	// $loginViewHMTL = $loginView->renderLoginForm();
-
-
-
-
-	// $htmlView = new HTMLview();
-	// $adminNavView = new AdminNavView();
-	// $adminNavHTML = $adminNavView->renderAdminNavHTML();
-	// $htmlView->echoHTML($adminNavHTML);
-
-	// $navigationController = new NavigationController();
-	// $adminNavView->attach($navigationController);
-
-	// $adminNavView->updateNavChoices();
+	$publicGalleryController->run();
 	

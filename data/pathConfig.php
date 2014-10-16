@@ -59,6 +59,7 @@
 	require_once(ControllerPath.DS.'PhotoUploadController.php');
 	require_once(ControllerPath.DS.'AdminNavController.php');
 	require_once(ControllerPath.DS.'PhotoManagementController.php');
+	require_once(ControllerPath.DS.'PublicGalleryController.php');
 
 	// REQUIRE MODELS
 	require_once(ModelPath.DS.'SessionModel.php');
@@ -70,6 +71,7 @@
 	require_once(ModelPath.DS.'PhotoModel.php');
 	require_once(ModelPath.DS.'ThumbnailModel.php');
 	require_once(ModelPath.DS.'ThumbnailList.php');
+	require_once(ModelPath.DS.'PaginationModel.php');
 
 	// REQUIRE VIEWS
 	require_once(ViewPath.DS.'CookieStorage.php');
@@ -78,5 +80,9 @@
 	require_once(ViewPath.DS.'AdminNavView.php');
 	require_once(ViewPath.DS.'PhotoUploadView.php');
 	require_once(ViewPath.DS.'PhotoManagementView.php');
+
+	// PUBLIC VIEWS
+	require_once(ViewPath.DS.'PaginationView.php');
+	require_once(ViewPath.DS.'PublicGalleryView.php');
 
 

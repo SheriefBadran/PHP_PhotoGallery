@@ -21,7 +21,7 @@
 		protected static $actualFileName = 'uploadedFileName';
 		private static $photoId = 'photoId';
 		private static $uniqueId = 'uniqueId';
-		private static $typeId = 'typeId'; 
+		private static $typeId = 'typeId';
 		private static $name = 'name';
 		private static $size = 'size';
 		private static $caption = 'caption';
