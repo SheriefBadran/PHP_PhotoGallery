@@ -49,7 +49,7 @@
 
 					if ($this->photoRepository->insert($photoModel)) {
 						
-						
+						$this->photoUploadView->setPhotoUploadSuccessMessage();
 						$this->photoManagementController->run();
 					}
 					else {
@@ -58,26 +58,6 @@
 					}
 				} 
 				catch (PhotoNameAlreadyExistException $e) {
-					
-					// TODO: Rename the photo instead? Don't change this unitil rendering the adminPhotoView.
-					// $photoName = $photoModel->getName();
-					// $nameParts = explode(".", $photoName);
-					// $matches = array();
-					// if (preg_match('#(\d+)$#', $nameParts[0], $matches)) {
-					    
-					// 	$photoModel->setName()
-					// 	echo "<pre>";
-					// 	print_r($matches);
-					// 	echo "</pre>";
-					// 	var_dump($matches[0]);
-					// 	var_dump($matches[1]);
-					// }
-					// else {
-
-					// 	var_dump($matches[0]);
-					// 	var_dump($matches[1]);
-					// 	$photoModel->setName($photoName . "1");
-					// }
 
 					$dataResult = $this->photoFileModel->unlink($uniqueId);
 					$this->photoFileModel->errors[] = $e->getMessage();

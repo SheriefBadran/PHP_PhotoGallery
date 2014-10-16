@@ -7,13 +7,14 @@
 
 		private static $action = 'action';
 		private static $actionUpload = 'upload';
-		private static $actionEditGallery = 'editgallery';
+		private static $actionManageGallery = 'manage';
 		private static $actionErrorlog = 'errorlog';
 		private static $actionLogout = 'logout';
 		private static $photoCaption = 'caption';
+		private static $setUploadSuccessMessage = 'The photo was successfully uploaded.';
 		private static $formActionUrl = 'src/view/PhotoUploadView.php';
 
-		public function __construct (HTMLView $htmlView, CookieStorage $cookieStorage, SessionModel $sessionModel) {
+		public function __construct (HTMLview $htmlView, CookieStorage $cookieStorage, SessionModel $sessionModel) {
 
 			$this->mainView = $htmlView;
 			$this->cookieStorage = $cookieStorage;
@@ -40,7 +41,8 @@
 
 			$html .= '<nav>';
 			$html .= 	'<ul>';
-			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionEditGallery . '>Edit gallery</a></li>';
+			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionUpload . '>Upload new photo</a></li>';
+			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionManageGallery . '>Manage Photo\'s</a></li>';
 			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionErrorlog . '>View error log</a></li>';
 			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionLogout . '>Logout</a></li>';
 			$html .= 	'</ul>';
@@ -75,6 +77,11 @@
 				
 				return $_POST[self::$photoCaption];
 			}
+		}
+
+		public function setPhotoUploadSuccessMessage () {
+
+			$this->sessionModel->setPhotoUploadSuccessMessage(self::$setUploadSuccessMessage);
 		}
 
 	}

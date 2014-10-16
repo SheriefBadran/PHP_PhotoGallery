@@ -7,7 +7,7 @@
 		private $photoManagementController;
 
 		private static $actionUpload = 'upload';
-		private static $actionEditGallery = 'editgallery';
+		private static $actionManageGallery = 'manage';
 		private static $actionErrorlog = 'errorlog';
 		private static $actionLogout = 'logout';
 
@@ -40,7 +40,8 @@
 					$this->photoUploadController->run();
 					break;
 
-				case self::$actionEditGallery:
+				case self::$actionManageGallery:
+				
 					$this->photoManagementController->run();
 					break;
 				

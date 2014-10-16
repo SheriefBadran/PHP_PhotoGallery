@@ -24,8 +24,8 @@
 	$photoUploadView 	   = 	new PhotoUploadView($mainView, $cookieStorage, $sessionModel);
 	$fileModel 			   = 	new PhotoFileModel();
 	$photoRepository 	   = 	new PhotoRepository($thumbnailList);
-	$photoManagementView	   =    new PhotoManagementView($sessionModel);
-	$photoManagementController = new PhotoManagementController($photoRepository, $photoManagementView);
+	$photoManagementView	   =    new PhotoManagementView($sessionModel, $mainView);
+	$photoManagementController = new PhotoManagementController($photoRepository, $photoManagementView, $fileModel);
 	$photoUploadController = 	new PhotoUploadController($fileModel, $photoUploadView, $photoRepository, $photoManagementController);
 	$adminNavController    = 	new AdminNavController($sessionModel, $photoUploadController, $photoManagementController);
 	$adminNavView 		   = 	new AdminNavView();
@@ -37,6 +37,9 @@
 	// $adminnavView publishes to $loginController (if user clicks logout).
 	$adminNavView->attach($loginController);
 	$adminNavView->updateLogoutAction();
+
+	$photoManagementView->attach($photoManagementController);
+	$photoManagementView->updateDeleteAction();
 
 	// Run Application
 	$loginController->run();

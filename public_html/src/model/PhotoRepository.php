@@ -12,12 +12,15 @@
 			"caption"  => "getCaption",
 			"typeId"   => "getTypeId"
 		);
+
+		protected static $id;
 		
 		// Used by parent class.
 		protected static $repositoryType = 'PhotoModel';
 		private static $parentTblName = 'photoType';
 		protected static $actualFileName = 'uploadedFileName';
 		private static $photoId = 'photoId';
+		private static $uniqueId = 'uniqueId';
 		private static $typeId = 'typeId'; 
 		private static $name = 'name';
 		private static $size = 'size';
@@ -71,33 +74,73 @@
 			return new PhotoModel($dataResult, $caption, $typeId, $uniqueId, $photoId);
 		}
 
+		public function deletePhoto ($uniqueId) {
+
+			try {
+
+				$db = $this->dbFactory->createInstance();
+
+				$sql = "DELETE FROM " . self::$tblName;
+				$sql .= " WHERE " . self::$uniqueId . " = (?)";
+				$query = $db->prepare($sql);
+				$result = $query->execute(array($uniqueId));
+
+				return $result;	
+			} 
+			catch (PDOException $e) {
+				
+				throw new \Exception($e->getMessage(), (int)$e->getCode());
+			}
+		}
+
 		/**
-		* Creates photo object and populates it, then creates a thumbnailobject and populate it with the
+		* Pupulates a list with thumbnail objects
 		* photo object and other data it needs. Save all the thumbnailobjects to a list and return it.
 		*
-		* @param ThumbnailModel $photo.
+		* @param Numeric thumbnailWidth.
 		*
-		* @return Boolean
+		* @return ThumbnailModel List $thumbnails
 		*/
 		public function toList ($thumbnailWidth) {
 
 			// create both photoModel and thumbnailModel and populate them here.
+			try {
+
+				$result = $this->fetchAllAssoc();
+			}
+			catch (EmptyRecordException $e) {
+
+				throw new EmptyRecordException($e);
+			}
+			catch (DatabaseErrorException $e) {
+
+				throw $e;
+			}
+			catch (Exception $e) {
+
+				throw $e->getMessage();
+			}
+
 			$db = $this->dbFactory->createInstance();
-			$result = $this->fetchAllAssoc();
-
-			// LOOP START: over record
-				// 1. For each photo: create a thumbnail object and populate it with the data it needs.
-
-				// 2. The thumbnail constructor fires of the thumbnail work.
-
-				// 3. Save the new thumbnail object to the thumbnails list.
-			// LOOP END
-
-			// 4. RETURN THE LIST.
-
+			$sql = "SELECT " . self::$fileType .  " FROM " . self::$parentTblName;
+			$sql .= " WHERE " . self::$typeId . " = (?)";
+			$query = $db->prepare($sql);
+			
 			foreach ($result as $photoRecord) {
 
-				$this->thumbnails->add(new ThumbnailModel($photoRecord, $thumbnailWidth));
+				try {
+
+					$query->execute(array($photoRecord["typeId"]));
+					$typeResult = $query->fetch();
+				}
+				catch (Exception $e) {
+
+					throw new \Exception($e->getMessage(), (int)$e->getCode());
+				}
+
+				$this->thumbnails->add(new ThumbnailModel($photoRecord, $thumbnailWidth, $typeResult['type']));
 			}
+
+			return $this->thumbnails;
 		}
 	}

@@ -9,6 +9,11 @@
 		private static $username = 'username';
 		private static $securitySessionName = 'unique';
 		private static $hashString = "sha256";
+		private static $photoSession = 'photos';
+		private static $uploadSuccessMessage = 'upLoadMessage';
+		private static $deleteSuccessMessage = 'deleteMessage';
+		private static $setPhotoMessageException = 'Param 1 in setPhotoUploadSuccessMessage has to be of type string.';
+		private static $emptyString = '';
 
 		function __construct () {
 
@@ -60,5 +65,55 @@
 		public function isStolen ($validId) {
 
 			return isset($_SESSION[self::$securitySessionName]) && $validId != $_SESSION[self::$securitySessionName];
+		}
+
+		public function setPhotoUploadSuccessMessage ($message) {
+
+			if (!is_string($message)) {
+				
+				throw new \Exception(self::$setPhotoMessageException);
+			}
+
+			$_SESSION[self::$photoSession][self::$uploadSuccessMessage] = $message;
+		}
+
+		public function resetPhotoUploadSuccessMessage () {
+
+			if (isset($_SESSION[self::$photoSession][self::$uploadSuccessMessage])) {
+				
+				$_SESSION[self::$photoSession][self::$uploadSuccessMessage] = self::$emptyString;	
+			}
+		}
+
+		public function getPhotoUploadSuccessMessage () {
+				
+			return isset($_SESSION[self::$photoSession][self::$uploadSuccessMessage]) ?
+						  $_SESSION[self::$photoSession][self::$uploadSuccessMessage] :
+						  self::$emptyString;
+		}
+
+		public function setPhotoDeleteSuccessMessage ($message) {
+
+			if (!is_string($message)) {
+				
+				throw new \Exception(self::$setPhotoMessageException);
+			}
+
+			$_SESSION[self::$photoSession][self::$deleteSuccessMessage] = $message;
+		}
+
+		public function resetPhotoDeleteSuccessMessage () {
+
+			if (isset($_SESSION[self::$photoSession][self::$deleteSuccessMessage])) {
+
+				$_SESSION[self::$photoSession][self::$deleteSuccessMessage] = self::$emptyString;
+			}
+		}
+
+		public function getPhotoDeleteSuccessMessage () {
+
+			return isset($_SESSION[self::$photoSession][self::$deleteSuccessMessage]) ?
+						  $_SESSION[self::$photoSession][self::$deleteSuccessMessage] :
+						  self::$emptyString;
 		}
 	}

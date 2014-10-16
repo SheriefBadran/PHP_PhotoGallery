@@ -8,7 +8,7 @@
 		private $sessionModel;
 		private static $action = 'action';
 		private static $actionUpload = 'upload';
-		private static $actionEditGallery = 'editgallery';
+		private static $actionManageGallery = 'manage';
 		private static $actionErrorlog = 'errorlog';
 		private static $actionLogout = 'logout';
 		private static $defaultLoginSuccessMessage = "You are successfully logged in.";
@@ -43,7 +43,7 @@
 			$html .= '<nav>';
 			$html .= 	'<ul>';
 			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionUpload . '>Upload new photo</a></li>';
-			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionEditGallery . '>Edit gallery</a></li>';
+			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionManageGallery . '>Manage Photo\'s</a></li>';
 			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionErrorlog . '>View error log</a></li>';
 			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionLogout . '>Logout</a></li>';
 			$html .= 	'</ul>';

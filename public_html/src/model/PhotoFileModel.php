@@ -6,6 +6,7 @@
 		private $dataResult = array();
 		private $uniquePhotoId;
 		private static $destinationPath = PhotoUploadDestinationPath;
+		private static $thumbnailPath = ThumbnailPath;
 
 		public function getUniquePhotoId () {
 
@@ -94,6 +95,32 @@
 
 				closedir($dirHandle);
 			}
+		}
+
+		public function removePhoto ($uniqueId) {
+			
+			if ($uniqueId === null) { return false; }
+
+			$photoDeleted = false;
+			$thumbnailDeleted = false;
+
+			$dirHandle = opendir(self::$thumbnailPath);
+
+			if ($dirHandle && file_exists(self::$thumbnailPath . DIRECTORY_SEPARATOR . $uniqueId)) {
+				
+				$thumbnailDeleted = unlink(self::$thumbnailPath . DIRECTORY_SEPARATOR . $uniqueId);
+				closedir($dirHandle);
+			}
+
+			$dirHandle = opendir(self::$destinationPath);
+
+			if ($thumbnailDeleted && $dirHandle) {
+				
+				$photoDeleted = unlink(self::$destinationPath . DIRECTORY_SEPARATOR . $uniqueId);
+				closedir($dirHandle);
+			}
+
+			return $photoDeleted;
 		}
 
 		public function unlink ($fileName) {
