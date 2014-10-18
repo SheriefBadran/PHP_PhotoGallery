@@ -10,46 +10,55 @@
 		private $typeId;
 		private $comments;
 
+		private static $id = 'uniqueId';
+		private static $photoName = 'name';
+		private static $photoTypeId = 'typeId';
+		private static $photoSize = 'size';
+		private static $photoCaption = 'caption';
+
+		private static $numericArgumentException = 'Param has to be an integer.';
+		private static $stringArgumentException = 'Param has to be a string.';
+
 		private static $dirPath = PhotoUploadDestinationPath;
 
 		protected static $actualFileName = 'uploadedFileName';
 		protected static $fileSize = 'size';
 
-		public function __construct (Array $photoData, $caption, $typeId, $uniqueId, $photoId = null) {
+		public function __construct (Array $photoProperties, $photoId = null) {
 
 			if (!is_numeric($photoId) && !is_null($photoId)) {
 				
-				throw new \Exception('Param $photoId must be an integer.');
+				throw new \Exception(self::$numericArgumentException);
 			}
 
-			if (!is_string($uniqueId)) {
+			if (!is_string($photoProperties[self::$id])) {
 				
-				throw new \Exception('Param $uniqueId must be a string.');
+				throw new \Exception(self::$stringArgumentException);
 			}
 
-			if (!is_numeric($typeId)) {
+			if (!is_numeric($photoProperties[self::$photoTypeId])) {
 				
-				throw new \Exception('Param $typeId must be an integer.');
+				throw new \Exception(self::$numericArgumentException);
 			}
 
-			if (!is_string($caption)) {
+			if (!is_string($photoProperties[self::$photoCaption])) {
 				
-				throw new \Exception('Param $caption must be a string.');
+				throw new \Exception(self::$stringArgumentException);
 			}
 
 			$this->photoId = $photoId;
-			$this->uniqueId = $uniqueId;
-			$this->typeId = $typeId;
-			$this->name = $photoData[self::$actualFileName];
-			$this->size = $photoData[self::$fileSize];
-			$this->caption = $caption;
+			$this->uniqueId = $photoProperties[self::$id];
+			$this->typeId = $photoProperties[self::$photoTypeId];
+			$this->name = $photoProperties[self::$photoName];
+			$this->size = $photoProperties[self::$photoSize];
+			$this->caption = $photoProperties[self::$photoCaption];
 		}
 
 		public function setPhotoId ($photoId) {
 
 			if (!is_numeric($photoId)) {
 				
-				throw new \Exception('Param $photoId in setter must be an integer.');
+				throw new \Exception(self::$numericArgumentException);
 			}
 
 			$this->photoId = $photoId;

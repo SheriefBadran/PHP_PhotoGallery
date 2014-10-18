@@ -6,16 +6,24 @@
 		private $currentPage;
 		private $itemsEachPage;
 
+		public static $argumentException = 'All params in PaginationModel ctor has to be numeric.';
+		public static $pageOverflowException = 'The chosen page number exceeds the number of available pages!';
+
 		public function __construct ($totalItems, $currentPage, $itemsEachPage) {
 
 			if (!is_numeric($totalItems) && !is_numeric($currentPage) && !is_numeric($itemsEachPage)) {
 				
-				throw new \Exception("All parrams in PaginationModel cunstructor has to be numeric.");
+				throw new \Exception(self::$argumentException);
 			}
 
 			$this->totalItems = $totalItems;
 			$this->currentPage = $currentPage;
 			$this->itemsEachPage = $itemsEachPage;
+
+			if ($currentPage > $this->getTotalPages()) {
+				
+				throw new PageOverflowException(self::$pageOverflowException);
+			}
 		}
 
 		private function calculateSQLOffset () {
@@ -36,6 +44,11 @@
 		public function getTotalPages () {
 
 			return ceil($this->totalItems / $this->itemsEachPage);
+		}
+
+		public function getCurrentPage () {
+
+			return $this->currentPage;
 		}
 
 		public function getNextPage () {

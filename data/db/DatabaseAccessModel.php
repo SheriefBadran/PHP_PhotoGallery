@@ -15,6 +15,10 @@ require_once(HelperPath.DS.'db/DB_Factory.php');
 		private static $fields = "fields";
 		private static $paramPlaceHolder = "paramPlaceHolder";
 
+		private static $emptyRecordException = "There are zero results to fetch.";
+		private static $databaseFetchAllErrorException = "fetchAll failed to fetch results";
+		private static $databaseFetchErrorException = "fetch failed to fetch results";
+
 		public function __construct () {
 
 			$dbAbstactFactory = new DB_Factory();
@@ -101,6 +105,7 @@ require_once(HelperPath.DS.'db/DB_Factory.php');
 				// Check SQL STATE 23000 (Photo name already exist in database).
 				if ((int)$e->getCode() === 23000) {
 					
+					// TODO: BAD CODE, CHANG THIS, ALSO IN PhotoUploadController!
 					throw new PhotoNameAlreadyExistException("A photo with the name " . $object->getName() . " is already uploaded.");
 				}
 
@@ -121,12 +126,12 @@ require_once(HelperPath.DS.'db/DB_Factory.php');
 
 				if (empty($result)) {
 					
-					throw new EmptyRecordException("There are zero results to fetch.");
+					throw new EmptyRecordException(self::$emptyRecordException);
 				}
 
 				if (!$result) {
 					
-					throw new DatabaseErrorException("fetchAll failed to fetch results");
+					throw new DatabaseErrorException(self::$databaseFetchAllErrorException);
 				}
 
 				return $result;
@@ -150,12 +155,12 @@ require_once(HelperPath.DS.'db/DB_Factory.php');
 
 				if (empty($result)) {
 					
-					throw new EmptyRecordException("There are zero results to fetch.");
+					throw new EmptyRecordException(self::$emptyRecordException);
 				}
 
 				if (!$result) {
 					
-					throw new DatabaseErrorException("fetchAll failed to fetch results");
+					throw new DatabaseErrorException(self::$databaseFetchErrorException);
 				}
 
 				$sum = (int)array_shift($result);

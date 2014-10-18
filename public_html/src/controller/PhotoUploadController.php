@@ -7,7 +7,11 @@
 		private $photoManagementController;
 
 		private $fileUploaded;
-		protected static $fileType = 'type';
+		private static $name = 'name';
+		private static $fileType = 'type';
+		private static $size = 'size';
+		private static $caption = 'caption';
+		private static $uniqueId = 'uniqueId';
 
 
 		public function __construct (PhotoFileModel $photoFileModel, 
@@ -38,14 +42,18 @@
 
 			if ($this->fileUploaded) {
 
-				$caption = $this->photoUploadView->getPhotoCaption();
+				$photoProperties = array();
 				$dataResult = $this->photoFileModel->getDataResult();
-				$uniqueId = $this->photoFileModel->getUniquePhotoId();
+				$photoProperties[self::$name] = $dataResult['uploadedFileName'];
+				$photoProperties[self::$size] = $dataResult[self::$size];
+				$photoProperties[self::$fileType] = $dataResult[self::$fileType];
+				$photoProperties[self::$caption] = $this->photoUploadView->getPhotoCaption();
+				$photoProperties[self::$uniqueId] = $this->photoFileModel->getUniquePhotoId();
 
 				try {
 					
 					// TODO: We need to know if something goes wrong when creating a photoModel.
-					$photoModel = $this->photoRepository->createPhotoModel($dataResult, $caption, $uniqueId);
+					$photoModel = $this->photoRepository->createPhotoModel($photoProperties);
 
 					if ($this->photoRepository->insert($photoModel)) {
 						

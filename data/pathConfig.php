@@ -18,12 +18,12 @@
 	defined('ControllerPath') ? null : define('ControllerPath', ProjectRootPath.DS.'public_html'.DS.'src'.DS.'controller');
 
 	defined('PhotoUploadDestinationPath') ? null : define('PhotoUploadDestinationPath', 
-														   ProjectRootPath.DS.'data'.DS.'uploads');
+														   ProjectRootPath.DS.'public_html'.DS.'src'.DS.'uploads');
 
-	defined('ThumbnailPath') ? null : define('ThumbnailPath', ProjectRootPath.DS.'data'.DS.'thumbnails');
+	defined('ThumbnailPath') ? null : define('ThumbnailPath', ProjectRootPath.DS.'public_html'.DS.'src'.DS.'thumbnails');
 
-	defined('LocalURL') ? null : define('LocalURL', "http://" . $_SERVER['HTTP_HOST'].DS.'www'.DS.'git'.DS.'PHP_PhotoGallery'.DS.'data'.DS.'thumbnails');
-	defined('ServerURL') ? null : define('ServerURL', "http://" . $_SERVER['HTTP_HOST'] . DS . 'data' . DS . 'thumbnails');
+	defined('LocalURL') ? null : define('LocalURL', "http://" . $_SERVER['HTTP_HOST'].DS.'www'.DS.'git'.DS.'PHP_PhotoGallery'.DS.'public_html'.DS.'src'.DS.'thumbnails');
+	defined('ServerURL') ? null : define('ServerURL', "http://" . $_SERVER['HTTP_HOST'].DS.'src'.DS.'thumbnails');
 
 	// REQUIRE NEEDED FILES BELOW.
 
@@ -44,6 +44,9 @@
 	// OWN SUBTYPE EXCEPTIONS
 	require_once(HelperPath.DS.'exceptions'.DS.'PhotoNameAlreadyExistException.php');
 	require_once(HelperPath.DS.'exceptions'.DS.'EmptyRecordException.php');
+	require_once(HelperPath.DS.'exceptions'.DS.'DatabaseErrorException.php');
+	require_once(HelperPath.DS.'exceptions'.DS.'ArgumentException.php');
+	require_once(HelperPath.DS.'exceptions'.DS.'PageOverflowException.php');
 
 	// REQUIRE OBSERVER CLASSES
 

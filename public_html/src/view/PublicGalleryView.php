@@ -1,10 +1,12 @@
 <?php
 
-	class PublicGalleryView {
+	class PublicGalleryView extends Publisher {
 
 
 		private $mainView;
 		private $paginationView;
+
+		private static $uniquePhotoGetIndex = 'name';
 		private static $thumbnailWidth = 100;
 		private static $noPhotosInGalleryResponseMessage = 'Ooops! The photo gallery seem to suffer a serious lack of photos!';
 
@@ -28,8 +30,9 @@
 
 			$html = '<section>';
 			foreach ($thumbnailList->toArray() as $thumbnail) {
-				
-				$html .= '<a><img src=' . $thumbnail->getSRC() .'></a>';
+
+
+				$html .= '<a href=index.php?page='.$paginationModel->getCurrentPage().'&name='.$thumbnail->getUniqueId().'><img src=' . $thumbnail->getSRC() .'></a>';
 			}
 			$html .= '</section>';
 
@@ -41,5 +44,23 @@
 		public function getThumbnailWidth () {
 
 			return self::$thumbnailWidth;
+		}
+
+		public function redirectToFirstPage () {
+
+			$this->paginationView->redirectToFirstPage();
+		}
+
+		public function userClickPhoto () {
+
+			return isset($_GET[self::$uniquePhotoGetIndex]);
+		}
+
+		public function getClickedPhotoId () {
+
+			if (isset($_GET[self::$uniquePhotoGetIndex])) {
+				
+				return $_GET[self::$uniquePhotoGetIndex];
+			}
 		}
 	}

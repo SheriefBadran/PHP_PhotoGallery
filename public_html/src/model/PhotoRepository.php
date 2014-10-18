@@ -13,7 +13,7 @@
 			"typeId"   => "getTypeId"
 		);
 
-		protected static $id;
+		protected static $id = "uniqueId";
 		
 		// Used by parent class.
 		protected static $repositoryType = 'PhotoModel';
@@ -27,6 +27,12 @@
 		private static $caption = 'caption';
 		private static $fileType = 'type';
 
+		private static $argumentIntException = "Param must be an integer.";
+		private static $argumentStringException = "Param must be an integer.";
+		private static $emptyRecordException = "There are zero results to fetch.";
+		private static $databaseFetchAllErrorException = "fetchAll failed to fetch results";
+		private static $databaseFetchErrorException = "fetch failed to fetch results";
+
 		public function __construct (ThumbnailList $thumbnails) {
 
 			// Call parent ctor to initialize database connection. If no ctor exist in this class, 
@@ -35,21 +41,21 @@
 			$this->thumbnails = $thumbnails;
 		}
 
-		public function createPhotoModel (Array $dataResult, $caption, $uniqueId, $photoId = null) {
+		public function createPhotoModel (Array $photoProperties, $photoId = null) {
 
 			if (!is_numeric($photoId) && !is_null($photoId)) {
 				
-				throw new \Exception('Param $typeId must be an integer.');
+				throw new \Exception(self::$argumentIntException);
 			}
 
-			if (!is_string($caption)) {
+			if (!is_string($photoProperties[self::$caption])) {
 				
-				throw new \Exception('Param $caption must be a string.');
+				throw new \Exception(self::$argumentStringException);
 			}
 
-			if (!is_string($uniqueId)) {
+			if (!is_string($photoProperties[self::$uniqueId])) {
 				
-				throw new \Exception('Param $uniqueId must be a string.');
+				throw new \Exception(self::$argumentStringException);
 			}
 
 			try {
@@ -57,7 +63,7 @@
 				$db = $this->dbFactory->createInstance();
 
 				$sql = "SELECT " . self::$typeId . " FROM " . self::$parentTblName . " WHERE " . self::$fileType . " = ?";
-				$params = array($dataResult[self::$fileType]);
+				$params = array($photoProperties[self::$fileType]);
 				$query = $db->prepare($sql);
 				$query->execute($params);
 				$result = $query->fetch();
@@ -69,9 +75,9 @@
 
 			if (!$result) { return null; }
 
-			$typeId = (int)($result[self::$typeId]);
+			$photoProperties[self::$typeId] = (int)($result[self::$typeId]);
 
-			return new PhotoModel($dataResult, $caption, $typeId, $uniqueId, $photoId);
+			return new PhotoModel($photoProperties, $photoId);
 		}
 
 		public function deletePhoto ($uniqueId) {
@@ -135,7 +141,7 @@
 				}
 				catch (Exception $e) {
 
-					throw new \Exception($e->getMessage(), (int)$e->getCode());
+					throw new DatabaseErrorException($e->getMessage(), (int)$e->getCode());
 				}
 
 				$this->thumbnails->add(new ThumbnailModel($photoRecord, $thumbnailWidth, $typeResult[self::$fileType]));
@@ -162,6 +168,16 @@
 				$query->execute();
 				$result = $query->fetchAll(PDO::FETCH_ASSOC);
 
+				if (empty($result)) {
+					
+					throw new EmptyRecordException(self::$emptyRecordException);
+				}
+
+				if (!$result) {
+					
+					throw new DatabaseErrorException(self::$databaseFetchAllErrorException);
+				}
+
 			} 
 			catch (PDOException $e) {
 
@@ -178,6 +194,16 @@
 
 					$query->execute(array($photoRecord[self::$typeId]));
 					$typeResult = $query->fetch();
+
+					if (empty($typeResult)) {
+						
+						throw new EmptyRecordException(self::$emptyRecordException);
+					}
+
+					if (!$typeResult) {
+						
+						throw new DatabaseErrorException(self::$databaseFetchErrorException);
+					}
 				}
 				catch (Exception $e) {
 
@@ -188,5 +214,32 @@
 			}
 
 			return $this->thumbnails;
+		}
+
+		public function getPhoto ($uniqueId) {
+
+			try {
+			
+				$db = $this->dbFactory->createInstance();
+				$sql = "SELECT * FROM " . self::$tblName . " WHERE " . self::$id . " =?";
+				$params = array($uniqueId);
+				$query = $db->prepare($sql);
+				$query->execute($params);
+				$result = $query->fetch();
+
+				if ($result) {
+
+					// Get all the comments belonging to the photo.
+					// Pupulate photo->comments with the comments.
+
+					$photo = new PhotoModel($result, $result['photoId']);
+					return $photo;
+				}
+
+			} 
+			catch (PDOException $e) {
+				
+				throw new Exception($e->getMessage(), (int)$e->getCode());
+			}
 		}
 	}

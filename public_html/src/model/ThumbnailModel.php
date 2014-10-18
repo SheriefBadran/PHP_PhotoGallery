@@ -3,7 +3,6 @@
 	class ThumbnailModel {
 
 		//TODO: Maybe add original height and witdth.
-		private $photoRecord;
 		private $uniqueId;
 		private $name;
 		private $size;
@@ -17,6 +16,11 @@
 		private static $photoPath = PhotoUploadDestinationPath;
 		private static $thumbnailPath = ThumbnailPath;
 
+		private static $id = 'uniqueId';
+		private static $photoName = 'name';
+		private static $fileSize = 'size';
+		private static $photoCaption = 'caption';
+
 		// For local environment
 		private static $localhostURL = LocalURL;
 
@@ -27,11 +31,11 @@
 
 		public function __construct (Array $photoRecord, $thumbnailWidth, $mimeType) {
 
-			$this->photoRecord = $photoRecord;
-			$this->uniqueId = $photoRecord['uniqueId'];
-			$this->name = $photoRecord['name'];
-			$this->size = $photoRecord['size'];
-			$this->caption = $photoRecord['caption'];
+			// TODO: Bad string dependency from the array. Make a better solution.
+			$this->uniqueId = $photoRecord[self::$id];
+			$this->name = $photoRecord[self::$photoName];
+			$this->size = $photoRecord[self::$fileSize];
+			$this->caption = $photoRecord[self::$photoCaption];
 			$this->type = $mimeType;
 			$this->thumbnailWidth = $thumbnailWidth;
 

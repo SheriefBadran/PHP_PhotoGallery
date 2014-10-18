@@ -132,18 +132,4 @@
 
 			return $this->dataResult;
 		}
-
-		public function printArray (Array $myArray) {
-
-			echo "<pre>";
-			print_r($myArray);
-			echo "</pre>";
-			die();
-		}
-
-		public function printVar ($var) {
-
-			var_dump($var);
-			die();
-		}
 	}
