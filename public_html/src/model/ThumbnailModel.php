@@ -22,10 +22,10 @@
 		private static $photoCaption = 'caption';
 
 		// For local environment
-		private static $localhostURL = LocalURL;
+		private static $localhostURL = LocalThumbnailsURL;
 
 		// For server environment
-		private static $serverURL = ServerURL;
+		private static $serverURL = ServerThumbnailsURL;
 
 		private $src;
 
@@ -38,11 +38,6 @@
 			$this->caption = $photoRecord[self::$photoCaption];
 			$this->type = $mimeType;
 			$this->thumbnailWidth = $thumbnailWidth;
-
-			if ($_SERVER['HTTP_HOST'] === 'localhost:8888') {
-				
-
-			}
 
 			$this->src = ($_SERVER['HTTP_HOST'] === 'localhost:8888') ? self::$localhostURL . DS . $this->uniqueId :
 																		self::$serverURL . DS . $this->uniqueId;

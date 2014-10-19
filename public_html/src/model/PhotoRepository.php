@@ -12,12 +12,11 @@
 			"caption"  => "getCaption",
 			"typeId"   => "getTypeId"
 		);
-
-		protected static $id = "uniqueId";
 		
 		// Used by parent class.
 		protected static $repositoryType = 'PhotoModel';
 		private static $parentTblName = 'photoType';
+		private static $childTblName = 'comment';
 		protected static $actualFileName = 'uploadedFileName';
 		private static $photoId = 'photoId';
 		private static $uniqueId = 'uniqueId';
@@ -221,7 +220,7 @@
 			try {
 			
 				$db = $this->dbFactory->createInstance();
-				$sql = "SELECT * FROM " . self::$tblName . " WHERE " . self::$id . " =?";
+				$sql = "SELECT * FROM " . self::$tblName . " WHERE " . self::$uniqueId . " = ?";
 				$params = array($uniqueId);
 				$query = $db->prepare($sql);
 				$query->execute($params);
@@ -232,10 +231,28 @@
 					// Get all the comments belonging to the photo.
 					// Pupulate photo->comments with the comments.
 
-					$photo = new PhotoModel($result, $result['photoId']);
+					$photo = new PhotoModel($result, $result[self::$photoId]);
+
+					$sql = "SELECT * FROM ". self::$childTblName. " WHERE " . self::$photoId . " = ?";
+					$query = $db->prepare($sql);
+					$query->execute(array($result[self::$photoId]));
+					$comments = $query->fetchAll();
+
+					foreach ($comments as $comment) {
+
+						$photo->addComment(new CommentModel(
+							$comment['created'],
+							$comment['author'],
+							$comment['text'],
+							$comment['photoId'],
+							$comment['commentId']
+						));
+					}
+
 					return $photo;
 				}
 
+				return null;
 			} 
 			catch (PDOException $e) {
 				

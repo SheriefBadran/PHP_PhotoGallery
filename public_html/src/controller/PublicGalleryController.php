@@ -5,14 +5,17 @@
 		private $photoRepository;
 		private $PaginationRepository;
 		private $publicGalleryView;
+		private $photoView;
 
 		public function __construct (PhotoRepository $photoRepository,
 									 PaginationRepository $paginationRepository,
-									 PublicGalleryView $publicGalleryView) {
+									 PublicGalleryView $publicGalleryView,
+									 PhotoView $photoView) {
 
 			$this->photoRepository = $photoRepository;
 			$this->paginationRepository = $paginationRepository;
 			$this->publicGalleryView = $publicGalleryView;
+			$this->photoView = $photoView;
 		}
 
 		public function run ($currentPage = 1) {
@@ -41,6 +44,7 @@
 			exit;
 		}
 
+		// Subscribes on user input from the pagination.
 		public function subscribe (Publisher $publisher) {
 
 			$currentPage = $publisher->publishPaginationAction();
@@ -50,6 +54,6 @@
 		public function showPhoto ($uniquePhotoId) {
 
 			$photo = $this->photoRepository->getPhoto($uniquePhotoId);
-			var_dump($photo->getName());
+			$this->photoView->renderPhoto($photo);
 		}
 	}

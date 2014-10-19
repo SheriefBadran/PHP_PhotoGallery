@@ -9,6 +9,7 @@
 		private $caption;
 		private $typeId;
 		private $comments;
+		private $src;
 
 		private static $id = 'uniqueId';
 		private static $photoName = 'name';
@@ -20,6 +21,12 @@
 		private static $stringArgumentException = 'Param has to be a string.';
 
 		private static $dirPath = PhotoUploadDestinationPath;
+
+		// For local environment
+		private static $localhostURL = LocalPhotosURL;
+
+		// For server environment
+		private static $serverURL = ServerPhotosURL;
 
 		protected static $actualFileName = 'uploadedFileName';
 		protected static $fileSize = 'size';
@@ -52,6 +59,10 @@
 			$this->name = $photoProperties[self::$photoName];
 			$this->size = $photoProperties[self::$photoSize];
 			$this->caption = $photoProperties[self::$photoCaption];
+			$this->comments = new CommentList();
+
+			$this->src = ($_SERVER['HTTP_HOST'] === 'localhost:8888') ? self::$localhostURL . DS . $this->uniqueId :
+																		self::$serverURL . DS . $this->uniqueId;
 		}
 
 		public function setPhotoId ($photoId) {
@@ -99,8 +110,13 @@
 			return $this->comments;
 		}
 
-		public function getPath () {
+		public function getSRC () {
 
-			return self::$dirPath;
+			return $this->src;
+		}
+
+		public function addComment (CommentModel $comment) {
+
+			$this->comments->add($comment);
 		}
 	}

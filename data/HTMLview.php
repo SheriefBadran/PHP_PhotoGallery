@@ -14,14 +14,16 @@ class HTMLview {
 
 		$sweWeekday = $this->GetSwedishWeekday(date("d"), date("M"), date("Y"));
 		$sweMonth = $this->GetSwedishMonth(strftime("%Y"), strftime("%m"), strftime("%d"));
-		$date = '<p>' . $sweWeekday . ', den ' . $day . ' ' . $sweMonth . ' år ' . $year . '. ' . 'Klockan är ' . $time . '</p>';
+		$date = '<p id="date">' . $sweWeekday . ', den ' . $day . ' ' . $sweMonth . ' år ' . $year . '. ' . 'Klockan är ' . $time . '</p>';
 
         echo "
 			<!DOCTYPE html>
 			<html>
 				<head>
 				    <title>Photo Gallery</title>
+				    <meta name='viewport' content='width=device-width'>
 				    <meta http-equiv='content-type' content='text/html; charset=utf-8' />
+				    <link href='../css/photo.css' rel='stylesheet' />
 				</head>
 				<body>
 					<h1>Photo Gallery</h1>
@@ -35,8 +37,14 @@ class HTMLview {
 	protected function GetSwedishWeekday ($day, $month, $yearForDay) {
 
 		$weekDay = Array(
-			'Monday'=>'Måndag','Tuesday'=>'Tisdag','Wednesday'=>'Onsdag',
-			'Thursday'=>'Torsdag','Friday'=>'Fredag','Saturday'=>'Lördag','Sunday'=>'Söndag');
+			'Monday'	=>	'Måndag', 
+			'Tuesday'	=>	'Tisdag', 
+			'Wednesday'	=>	'Onsdag',
+			'Thursday'	=>	'Torsdag', 
+			'Friday'	=>	'Fredag', 
+			'Saturday'	=>	'Lördag', 
+			'Sunday'	=>	'Söndag'
+		);
 
 		return $weekDay[date("l", strtotime($yearForDay.'-'.$month.'-'.$day))];
 	}
@@ -46,8 +54,19 @@ class HTMLview {
 		$date = $year.'-'.$month.'-'.$day;
 
 		$month = Array(
-			'Jan'=>'Januari','Feb'=>'Februari','Mar'=>'Mars','Apr'=>'April','May'=>'Maj','Jun'=>'Juni','Jul'=>'Juli',
-			'Aug'=>'Augusti','Sep'=>'September','Oct'=>'Oktober','Nov'=>'November','Dec'=>'December');
+			'Jan'=>'Januari', 
+			'Feb'=>'Februari',
+			'Mar'=>'Mars',
+			'Apr'=>'April',
+			'May'=>'Maj',
+			'Jun'=>'Juni',
+			'Jul'=>'Juli',
+			'Aug'=>'Augusti',
+			'Sep'=>'September',
+			'Oct'=>'Oktober',
+			'Nov'=>'November',
+			'Dec'=>'December'
+		);
 
 			return $month[strftime("%h", strtotime((string)$date))];
 	}

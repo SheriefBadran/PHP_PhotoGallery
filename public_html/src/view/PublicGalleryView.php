@@ -28,11 +28,11 @@
 			// 1. First render html for all photos with caption and everything.
 			// 2. Then render html for the pagination itself.
 
-			$html = '<section>';
+			$html = '<section id="images">';
 			foreach ($thumbnailList->toArray() as $thumbnail) {
 
 
-				$html .= '<a href=index.php?page='.$paginationModel->getCurrentPage().'&name='.$thumbnail->getUniqueId().'><img src=' . $thumbnail->getSRC() .'></a>';
+				$html .= '<a title="' . $thumbnail->getCaption() . '" href=index.php?page='.$paginationModel->getCurrentPage().'&name='.$thumbnail->getUniqueId().'><img src=' . $thumbnail->getSRC() .'></a>';
 			}
 			$html .= '</section>';
 

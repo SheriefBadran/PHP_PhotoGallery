@@ -22,8 +22,13 @@
 
 	defined('ThumbnailPath') ? null : define('ThumbnailPath', ProjectRootPath.DS.'public_html'.DS.'src'.DS.'thumbnails');
 
-	defined('LocalURL') ? null : define('LocalURL', "http://" . $_SERVER['HTTP_HOST'].DS.'www'.DS.'git'.DS.'PHP_PhotoGallery'.DS.'public_html'.DS.'src'.DS.'thumbnails');
-	defined('ServerURL') ? null : define('ServerURL', "http://" . $_SERVER['HTTP_HOST'].DS.'src'.DS.'thumbnails');
+	// For thumbnails <img src>
+	defined('LocalThumbnailsURL') ? null : define('LocalThumbnailsURL', "http://" . $_SERVER['HTTP_HOST'].DS.'www'.DS.'git'.DS.'PHP_PhotoGallery'.DS.'public_html'.DS.'src'.DS.'thumbnails');
+	defined('ServerThumbnailsURL') ? null : define('ServerThumbnailsURL', "http://" . $_SERVER['HTTP_HOST'].DS.'src'.DS.'thumbnails');
+
+	// For photos <img src>
+	defined('LocalPhotosURL') ? null : define('LocalPhotosURL', "http://" . $_SERVER['HTTP_HOST'].DS.'www'.DS.'git'.DS.'PHP_PhotoGallery'.DS.'public_html'.DS.'src'.DS.'uploads');
+	defined('ServerPhotosURL') ? null : define('ServerPhotosURL', "http://" . $_SERVER['HTTP_HOST'].DS.'src'.DS.'uploads');
 
 	// REQUIRE NEEDED FILES BELOW.
 
@@ -76,6 +81,8 @@
 	require_once(ModelPath.DS.'ThumbnailList.php');
 	require_once(ModelPath.DS.'PaginationRepository.php');
 	require_once(ModelPath.DS.'PaginationModel.php');
+	require_once(ModelPath.DS.'CommentList.php');
+	require_once(ModelPath.DS.'CommentModel.php');
 
 	// REQUIRE VIEWS
 	require_once(ViewPath.DS.'CookieStorage.php');
@@ -84,6 +91,9 @@
 	require_once(ViewPath.DS.'AdminNavView.php');
 	require_once(ViewPath.DS.'PhotoUploadView.php');
 	require_once(ViewPath.DS.'PhotoManagementView.php');
+	require_once(ViewPath.DS.'CommentsView.php');
+	require_once(ViewPath.DS.'PhotoView.php');
+
 
 	// PUBLIC VIEWS
 	require_once(ViewPath.DS.'PaginationView.php');

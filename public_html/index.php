@@ -30,10 +30,12 @@
 	$adminNavController    = 	new AdminNavController($sessionModel, $photoUploadController, $photoManagementController);
 	$adminNavView 		   = 	new AdminNavView();
 
+	$commentsView		   =	new CommentsView();
+	$photoView 			   =	new PhotoView($mainView, $commentsView);
 	$paginationRepository  =   new PaginationRepository();
 	$paginationView		   =   new PaginationView ();
 	$publicGalleryView	   =   new PublicGalleryView($mainView, $paginationView);
-	$publicGalleryController = new PublicGalleryController($photoRepository, $paginationRepository, $publicGalleryView);
+	$publicGalleryController = new PublicGalleryController($photoRepository, $paginationRepository, $publicGalleryView, $photoView);	
 
 
 	$paginationView->attach($publicGalleryController);
