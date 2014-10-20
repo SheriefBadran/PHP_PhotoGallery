@@ -56,6 +56,7 @@
 
 		public function showPhoto ($uniquePhotoId) {
 			
+			// Using PRG pattern - if POST,- REDIRECT and then GET.
 			if ($this->photoView->userClickSubmitCommentButton()) {
 				
 				$photoId = $this->photoRepository->getPhotoId($uniquePhotoId);
@@ -67,6 +68,7 @@
 					$photoId
 				));
 
+				// TODO: Deligate the redirect to a view.
 				header('Location: '.$_SERVER['REQUEST_URI']);
 				$photo = $this->photoRepository->getPhoto($uniquePhotoId);
 				$this->photoView->renderPhoto($photo);
