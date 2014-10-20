@@ -2,8 +2,8 @@
 
 	class PaginationView extends Publisher {
 
+
 		public static $paginationGetIndex = 'page';
-		private $paginationModel;
 
 		public function renderPaginationHTML (PaginationModel $paginationModel) {
 

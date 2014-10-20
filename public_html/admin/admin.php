@@ -19,13 +19,16 @@
 	$mainView 			   =    new HTMLview();
 
 	$thumbnailList		   =    new ThumbnailList();
+	$commentList		   =    new CommentList();	
 
 	$loginController 	   = 	new LoginController();
 	$photoUploadView 	   = 	new PhotoUploadView($mainView, $cookieStorage, $sessionModel);
 	$fileModel 			   = 	new PhotoFileModel();
 	$photoRepository 	   = 	new PhotoRepository($thumbnailList);
-	$photoManagementView   =    new PhotoManagementView($mainView, $sessionModel);
-	$photoManagementController = new PhotoManagementController($photoRepository, $photoManagementView, $fileModel);
+	$commentRepository	   =    new CommentRepository($commentList);
+	$commentsView		   =	new CommentsView($sessionModel);
+	$photoManagementView   =    new PhotoManagementView($mainView, $commentsView, $sessionModel);
+	$photoManagementController = new PhotoManagementController($photoRepository, $commentRepository, $photoManagementView, $fileModel);
 	$photoUploadController = 	new PhotoUploadController($fileModel, $photoUploadView, $photoRepository, $photoManagementController);
 	$adminNavController    = 	new AdminNavController($sessionModel, $photoUploadController, $photoManagementController);
 	$adminNavView 		   = 	new AdminNavView();
@@ -39,7 +42,9 @@
 	$adminNavView->updateLogoutAction();
 
 	$photoManagementView->attach($photoManagementController);
-	$photoManagementView->updateDeleteAction();
+	$photoManagementView->updateDeletePhotoAction();
+	$photoManagementView->updateViewCommentsAction();
+	$photoManagementView->updateDeleteCommentAction();
 
 	// Run Application
 	$loginController->run();

@@ -83,6 +83,7 @@
 	require_once(ModelPath.DS.'PaginationModel.php');
 	require_once(ModelPath.DS.'CommentList.php');
 	require_once(ModelPath.DS.'CommentModel.php');
+	require_once(ModelPath.DS.'CommentRepository.php');
 
 	// REQUIRE VIEWS
 	require_once(ViewPath.DS.'CookieStorage.php');

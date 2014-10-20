@@ -2,17 +2,17 @@
 	
 	class CommentModel {
 
-		private $commentId;
-		private $created;
 		private $author;
 		private $text;
 		private $photoId;
+		private $commentId;
+		private $created;
 
 		private static $pkArgumentException = 'Param has to be an integer or null.';
 		private static $stringArgumentException = 'Param has to be a string.';
 		private static $intArgumentException = 'Param has to be numeric.';
 
-		public function __construct ($created, $author, $text, $photoId, $commentId = null) {
+		public function __construct ($author, $text, $photoId, $commentId = null, $created = null) {
 
 			if (!is_numeric($commentId) && !is_null($commentId)) {
 				
@@ -29,16 +29,11 @@
 				throw new ArgumentException(self::$intArgumentException);
 			}
 
-			$this->commentId = $commentId;
-			$this->created = $created;
 			$this->author = $author;
 			$this->text = $text;
 			$this->photoId = $photoId;
-		}
-
-		public function getCommentId () {
-
-			return $this->commentId;
+			$this->commentId = $commentId;
+			$this->created = $created;
 		}
 
 		public function getAuthor () {
@@ -49,6 +44,16 @@
 		public function getText () {
 
 			return $this->text;
+		}
+
+		public function getPhotoId () {
+
+			return $this->photoId;
+		}
+
+		public function getCommentId () {
+
+			return $this->commentId;
 		}
 
 		public function getCreated () {

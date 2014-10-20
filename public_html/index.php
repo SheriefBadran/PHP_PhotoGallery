@@ -19,23 +19,25 @@
 	$mainView 			   =    new HTMLview(); //using
 
 	$thumbnailList		   =    new ThumbnailList(); //using
+	$commentList		   =	new CommentList();
 
 	$loginController 	   = 	new LoginController();
 	$photoUploadView 	   = 	new PhotoUploadView($mainView, $cookieStorage, $sessionModel);
 	$fileModel 			   = 	new PhotoFileModel();
 	$photoRepository 	   = 	new PhotoRepository($thumbnailList); //using
-	$photoManagementView	   =    new PhotoManagementView($mainView, $sessionModel);
-	$photoManagementController = new PhotoManagementController($photoRepository, $photoManagementView, $fileModel);
-	$photoUploadController = 	new PhotoUploadController($fileModel, $photoUploadView, $photoRepository, $photoManagementController);
-	$adminNavController    = 	new AdminNavController($sessionModel, $photoUploadController, $photoManagementController);
+	// $photoManagementView	   =    new PhotoManagementView($mainView, $sessionModel);
+	// $photoManagementController = new PhotoManagementController($photoRepository, $photoManagementView, $fileModel);
+	// $photoUploadController = 	new PhotoUploadController($fileModel, $photoUploadView, $photoRepository, $photoManagementController);
+	// $adminNavController    = 	new AdminNavController($sessionModel, $photoUploadController, $photoManagementController);
 	$adminNavView 		   = 	new AdminNavView();
 
-	$commentsView		   =	new CommentsView();
+	$commentsView		   =	new CommentsView($sessionModel);
 	$photoView 			   =	new PhotoView($mainView, $commentsView);
 	$paginationRepository  =   new PaginationRepository();
+	$commentRepository	   =   new CommentRepository($commentList);	
 	$paginationView		   =   new PaginationView ();
 	$publicGalleryView	   =   new PublicGalleryView($mainView, $paginationView);
-	$publicGalleryController = new PublicGalleryController($photoRepository, $paginationRepository, $publicGalleryView, $photoView);	
+	$publicGalleryController = new PublicGalleryController($photoRepository, $paginationRepository, $commentRepository, $publicGalleryView, $photoView);	
 
 
 	$paginationView->attach($publicGalleryController);

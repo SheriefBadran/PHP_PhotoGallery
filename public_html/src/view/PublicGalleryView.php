@@ -51,6 +51,11 @@
 			$this->paginationView->redirectToFirstPage();
 		}
 
+		public function redirectToCurrentPage () {
+
+			$this->paginationView->redirectToCurrentPage();
+		}
+
 		public function userClickPhoto () {
 
 			return isset($_GET[self::$uniquePhotoGetIndex]);

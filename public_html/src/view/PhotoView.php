@@ -1,9 +1,11 @@
 <?php
 
-	class PhotoView {
+	class PhotoView extends Publisher {
 
 		private $mainView;
 		private $commentsView;
+
+		private static $nameGetIndex = 'name';
 
 		public function __construct (HTMLview $mainView, CommentsView $commentsView) {
 
@@ -44,5 +46,18 @@
 			$this->mainView->echoHTML($photoHTML);
 		}
 
+		public function userClickSubmitCommentButton() {
 
+			return $this->commentsView->userClickSubmitCommentButton();
+		}
+
+		public function getAuthor() {
+
+			return $this->commentsView->getAuthor();
+		}
+
+		public function getComment() {
+
+			return $this->commentsView->getComment();
+		}
 	}

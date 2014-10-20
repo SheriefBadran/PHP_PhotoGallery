@@ -4,6 +4,7 @@
 
 		private $thumbnails;
 
+		// Setup for parant class insert method.
 		protected static $tblName = 'photo';
 		protected static $tblFieldGetters = array(
 			"uniqueId" => "getUniqueId",
@@ -241,11 +242,11 @@
 					foreach ($comments as $comment) {
 
 						$photo->addComment(new CommentModel(
-							$comment['created'],
 							$comment['author'],
 							$comment['text'],
 							$comment['photoId'],
-							$comment['commentId']
+							$comment['commentId'],
+							$comment['created']
 						));
 					}
 
@@ -253,6 +254,31 @@
 				}
 
 				return null;
+			} 
+			catch (PDOException $e) {
+				
+				throw new Exception($e->getMessage(), (int)$e->getCode());
+			}
+		}
+
+		public function getPhotoId ($uniqueId) {
+
+			try {
+
+				$db = $this->dbFactory->createInstance();
+
+				$sql = "SELECT " . self::$photoId . " FROM " . self::$tblName . " WHERE " . self::$uniqueId . " = ?";
+				$params = array($uniqueId);
+				$query = $db->prepare($sql);
+				$query->execute($params);
+				$result = $query->fetch();
+
+				if ($result) {
+					
+					return (int)$result['photoId'];
+				}
+
+				return $result;
 			} 
 			catch (PDOException $e) {
 				
