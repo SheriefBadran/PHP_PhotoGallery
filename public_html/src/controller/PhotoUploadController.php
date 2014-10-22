@@ -12,6 +12,7 @@
 		private static $size = 'size';
 		private static $caption = 'caption';
 		private static $uniqueId = 'uniqueId';
+		private static $emptyString = '';
 
 
 		public function __construct (PhotoFileModel $photoFileModel, 
@@ -32,7 +33,7 @@
 				$this->uploadPhoto();
 			}
 
-			$this->photoUploadView->renderPhotoUploadForm('', false);
+			$this->photoUploadView->renderPhotoUploadForm(self::$emptyString, false);
 			exit;
 		}
 
@@ -67,7 +68,7 @@
 				} 
 				catch (PhotoNameAlreadyExistException $e) {
 
-					$dataResult = $this->photoFileModel->unlink($uniqueId);
+					$dataResult = $this->photoFileModel->unlink($photoModel);
 					$this->photoFileModel->errors[] = $e->getMessage();
 					$this->photoUploadView->renderPhotoUploadForm($this->photoFileModel->errors[0], false);
 					exit;

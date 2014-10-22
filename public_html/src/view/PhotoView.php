@@ -15,10 +15,14 @@
 
 		public function renderPhotoHTML (PhotoModel $photo) {
 
+			// Make sure output is clean.
+			$name = htmlspecialchars($photo->getName());
+			$caption = htmlspecialchars($photo->getCaption());
+
 			// Render html for photo and caption.
 			$html = '<div id="image">';
-			$html .= '<h3>' . $photo->getName() . '</h3>';
-			$html .= '<a title="' . $photo->getCaption() . '"><img width=1000 src=' . $photo->getSRC() . '></a>';
+			$html .= '<h3 id="photoName">' . $name . '</h3>';
+			$html .= '<a title="' . $caption . '"><img width=1000 src=' . $photo->getSRC() . '></a>';
 			$html .= '</div>';
 
 			$commentHTML = $this->renderCommentsHTML($photo->getComments()->toArray());

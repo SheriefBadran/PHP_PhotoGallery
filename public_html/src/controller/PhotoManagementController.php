@@ -68,7 +68,6 @@
 		protected function deletePhoto () {
 
 			$uniqueId = $this->photoManagementView->getUniquePhotoId();
-
 			$filesDeleted = $this->photoFileModel->removePhoto($uniqueId);
 
 			if ($filesDeleted) {

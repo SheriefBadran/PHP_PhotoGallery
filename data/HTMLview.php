@@ -24,6 +24,9 @@ class HTMLview {
 				    <meta name='viewport' content='width=device-width'>
 				    <meta http-equiv='content-type' content='text/html; charset=utf-8' />
 				    <link href='../css/photo.css' rel='stylesheet' />
+				    <link href='../css/photoView.css' rel='stylesheet' />
+				    <link href='../css/comment.css' rel='stylesheet' />
+				    <link href='../css/responseMessage.css' rel='stylesheet' />
 				</head>
 				<body>
 					<h1>Photo Gallery</h1>

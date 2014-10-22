@@ -36,10 +36,7 @@
 				$username = $this->cookieStorage->getCookieUsername();
 			}
 
-			$html = '<h1>Edit Photo Gallery</h1>';
-			$html .= '<h2>' . $username . '</h2>';
-
-			$html .= '<nav>';
+			$html = '<nav>';
 			$html .= 	'<ul>';
 			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionUpload . '>Upload new photo</a></li>';
 			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionManageGallery . '>Manage Photo\'s</a></li>';
@@ -47,6 +44,8 @@
 			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionLogout . '>Logout</a></li>';
 			$html .= 	'</ul>';
 			$html .= '</nav>';
+
+			$html .= '<h2>' . $username . ' - Upload Photo.</h2>';
 
 			$html .= '<form action="" enctype="multipart/form-data" method="POST">';
 			$html .= 	'<input type="hidden" name="MAX_FILE_SIZE" value="10000000">';

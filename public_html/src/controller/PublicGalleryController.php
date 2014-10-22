@@ -60,19 +60,22 @@
 			if ($this->photoView->userClickSubmitCommentButton()) {
 				
 				$photoId = $this->photoRepository->getPhotoId($uniquePhotoId);
+				$commentAuthor = $this->photoView->getAuthor();
+				$commentText = $this->photoView->getComment();
 
-				$this->commentRepository->insert(new CommentModel(
+				if (!$commentAuthor || !$commentText) {
+					
+					$photo = $this->photoRepository->getPhoto($uniquePhotoId);
+					$this->photoView->renderPhoto($photo);
+					exit;
+				}
 
-					$this->photoView->getAuthor(),
-					$this->photoView->getComment(),
-					$photoId
-				));
+				$this->commentRepository->insert(new CommentModel($commentAuthor, $commentText, $photoId));
 
 				// TODO: Deligate the redirect to a view.
 				header('Location: '.$_SERVER['REQUEST_URI']);
 				$photo = $this->photoRepository->getPhoto($uniquePhotoId);
 				$this->photoView->renderPhoto($photo);
-
 				exit;
 			}
 

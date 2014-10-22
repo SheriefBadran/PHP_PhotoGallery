@@ -101,6 +101,9 @@
 			
 			if ($uniqueId === null) { return false; }
 
+			$uniqueId = stripslashes(trim($uniqueId));
+			$uniqueId = filter_var($uniqueId, FILTER_SANITIZE_STRING);
+
 			$photoDeleted = false;
 			$thumbnailDeleted = false;
 

@@ -13,6 +13,11 @@
 		private static $uploadSuccessMessage = 'upLoadMessage';
 		private static $deletePhotoSuccessMessage = 'deletePhotoMessage';
 		private static $deleteCommentSuccessMessage = 'deleteCommentMessage';
+		private static $urlComponent = 'urlcomponent';
+		private static $uniquePhotoId = 'uniquePhotoId';
+		private static $comment = 'comment';
+		private static $author = 'author';
+		private static $text = 'text';
 		private static $setPhotoUploadMessageException = 'Param in setPhotoUploadSuccessMessage has to be of type string.';
 		private static $setPhotoDeleteMessageException = 'Param in setPhotoDeleteSuccessMessage has to be of type string.';
 		private static $setCommentDeleteMessageException = 'Param in setCommentDeleteSuccessMessage has to be of type string.';
@@ -146,17 +151,53 @@
 
 		public function setUniquePhotoId ($uniquePhotoId) {
 
-			$_SESSION['urlcomponent']['uniquePhotoId'] = $uniquePhotoId;
+			$_SESSION[self::$urlComponent][self::$uniquePhotoId] = $uniquePhotoId;
 		}
 
 		public function getUniquePhotoId () {
 
-			if (isset($_SESSION['urlcomponent']['uniquePhotoId'])) {
+			if (isset($_SESSION[self::$urlComponent][self::$uniquePhotoId])) {
 				
-				$uniquePhotoId = $_SESSION['urlcomponent']['uniquePhotoId'];
-				$_SESSION['urlcomponent']['uniquePhotoId'] = self::$emptyString;
+				$uniquePhotoId = $_SESSION[self::$urlComponent][self::$uniquePhotoId];
+				$_SESSION[self::$urlComponent][self::$uniquePhotoId] = self::$emptyString;
 			}
 
 			return $uniquePhotoId;
+		}
+
+		public function setAuthorErrorMessage ($message) {
+
+			$_SESSION[self::$comment][self::$author] = $message;
+		}
+
+		public function setCommentErrorMessage ($message) {
+
+			$_SESSION[self::$comment][self::$text] = $message;
+		}
+
+		public function getAuthorErrorMessage () {
+
+			$errorMsg = self::$emptyString;
+
+			if (isset($_SESSION[self::$comment][self::$author])) {
+				
+				$errorMsg = $_SESSION[self::$comment][self::$author];
+				$_SESSION[self::$comment][self::$author] = self::$emptyString;
+			}
+			
+			return $errorMsg;
+		}
+
+		public function getCommentErrorMessage () {
+
+			$errorMsg = self::$emptyString;
+
+			if (isset($_SESSION[self::$comment][self::$text])) {
+				
+				$errorMsg = $_SESSION[self::$comment][self::$text];
+				$_SESSION[self::$comment][self::$text] = self::$emptyString;
+			}
+			
+			return $errorMsg;
 		}
 	}

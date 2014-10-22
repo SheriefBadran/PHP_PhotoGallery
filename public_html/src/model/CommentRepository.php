@@ -24,6 +24,9 @@
 
 		public function deleteComment ($commentId) {
 
+			// Make sure query is done with an integer.
+			$commentId = (int)filter_var($commentId, FILTER_SANITIZE_NUMBER_INT);
+
 			try {
 
 				$db = $this->dbFactory->createInstance();
@@ -55,6 +58,8 @@
 		}
 
 		public function toList ($photoId) {
+
+			$photoId = (int)filter_var($photoId, FILTER_SANITIZE_NUMBER_INT);
 
 			$db = $this->dbFactory->createInstance();
 			$sql = "SELECT * FROM " . self::$tblName . " WHERE " . self::$photoId . " = ?";

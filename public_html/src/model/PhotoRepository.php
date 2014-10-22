@@ -263,6 +263,8 @@
 
 		public function getPhotoId ($uniqueId) {
 
+			$uniqueId = filter_var($uniqueId, FILTER_SANITIZE_STRING);
+
 			try {
 
 				$db = $this->dbFactory->createInstance();

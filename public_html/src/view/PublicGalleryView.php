@@ -31,8 +31,9 @@
 			$html = '<section id="images">';
 			foreach ($thumbnailList->toArray() as $thumbnail) {
 
-
-				$html .= '<a title="' . $thumbnail->getCaption() . '" href=index.php?page='.$paginationModel->getCurrentPage().'&name='.$thumbnail->getUniqueId().'><img src=' . $thumbnail->getSRC() .'></a>';
+				$uniqueId = htmlspecialchars(urlencode($thumbnail->getUniqueId()));
+				$caption = htmlspecialchars($thumbnail->getCaption());
+				$html .= '<a title="' . $caption . '" href=index.php?page='.$paginationModel->getCurrentPage().'&name='.$uniqueId.'><img src=' . $thumbnail->getSRC() .'></a>';
 			}
 			$html .= '</section>';
 
@@ -64,8 +65,8 @@
 		public function getClickedPhotoId () {
 
 			if (isset($_GET[self::$uniquePhotoGetIndex])) {
-				
-				return $_GET[self::$uniquePhotoGetIndex];
+
+				return filter_var($_GET[self::$uniquePhotoGetIndex], FILTER_SANITIZE_STRING);
 			}
 		}
 	}

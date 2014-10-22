@@ -65,7 +65,7 @@
 			$html .= '<p>' . $deleteConfirmMessage . '</p>';
 
 
-			$html .=  "<h3>Manage photo's</h3>";
+			$html .=  "<h2>Manage photo's</h2>";
 			$html .= '<table>';
 			$html .=	'<tr>';
 			$html .=		'<th>Image</th>';
@@ -79,6 +79,8 @@
 
 			foreach ($thumbnails as $thumbnail) {
 
+				$uniqueId = htmlspecialchars(urlencode($thumbnail->getUniqueId()));
+
 				$html .= '<tr>';
 				$html .= 	'<td><img src=' . $thumbnail->getSRC() . '></td>';
 				$html .= 	'<td>' . $thumbnail->getName() . '</td>';
@@ -86,12 +88,12 @@
 				$html .= 	'<td>' . $thumbnail->getFormattedSize() . '</td>';
 				$html .= 	'<td>' . $thumbnail->getType() . '</td>';
 				$html .= 	'<td>';
-				$html .=		'<a href=?' . self::$action . "=" . self::$actionViewComments . "&" . self::$name . "=" . $thumbnail->getUniqueId() . '>';
+				$html .=		'<a href=?' . self::$action . "=" . self::$actionViewComments . "&" . self::$name . "=" . $uniqueId . '>';
 				$html .= 			'View Comments';
 				$html .= 		'</a>';
 				$html .= 	'</td>';
 				$html .= 	'<td>';
-				$html .=		'<a href=?' . self::$action . "=" . self::$actionDeletePhoto . "&" . self::$name . "=" . $thumbnail->getUniqueId() . '>';
+				$html .=		'<a href=?' . self::$action . "=" . self::$actionDeletePhoto . "&" . self::$name . "=" . $uniqueId . '>';
 				$html .= 			'Delete';
 				$html .= 		'</a>';
 				$html .= 	'</td>';
@@ -175,8 +177,14 @@
 
 		public function getUniquePhotoId () {
 
-			return (isset($_GET[self::$action]) && isset($_GET[self::$name])) ? $_GET[self::$name] : 
-																				$this->sessionModel->getUniquePhotoId();
+			if (isset($_GET[self::$action]) && isset($_GET[self::$name])) {
+				
+				$urlPhotoId = $this->cleanString($_GET[self::$name]);
+				return $urlPhotoId;
+			}
+
+			$sessionPhotoId = $this->cleanString($this->sessionModel->getUniquePhotoId());
+			return $sessionPhotoId;
 		}
 
 		public function updateDeleteCommentAction () {
@@ -196,8 +204,9 @@
 		public function getCommentId () {
 
 			if (isset($_GET[self::$action]) && isset($_GET[self::$id])) {
-				
-				return $_GET[self::$id];
+
+				$commentId = filter_var($_GET[self::$id], FILTER_SANITIZE_NUMBER_INT);
+				return $commentId;
 			}
 		}
 
@@ -235,5 +244,13 @@
 		public function redirectToManagementArea () {
 
 			header('Location: '.$_SERVER['PHP_SELF']."?".self::$action.'='.self::$actionManageGallery);
+		}
+
+		public function cleanString ($string) {
+
+			$string = trim($string);
+			$string = stripslashes($string);
+
+			return (filter_var($string, FILTER_SANITIZE_STRING));
 		}
 	}

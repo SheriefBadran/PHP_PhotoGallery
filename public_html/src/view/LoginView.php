@@ -71,7 +71,7 @@
 			// Is called from LoginController
 			if (isset($_POST['username'])) {
 				
-				return $_POST['username'];
+				return $this->cleanString($_POST['username']);
 			}
 		}
 
@@ -124,5 +124,13 @@
 			$_SESSION['LoginValues']['username'] = $this->GetUsername();
 
 			return self::$loginErrorMessage;
+		}
+
+		public function cleanString ($string) {
+
+			$string = trim($string);
+			$string = stripslashes($string);
+
+			return (filter_var($string, FILTER_SANITIZE_STRING));
 		}
 	}

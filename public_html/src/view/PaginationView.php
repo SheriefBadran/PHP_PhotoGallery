@@ -52,7 +52,6 @@
 			// IMPORTANT: Check if current page nr is numeric! Also checked and handled in PublicGalleryController 
 			// and business model.
 			if (isset($_GET[self::$paginationGetIndex]) && is_numeric($_GET[self::$paginationGetIndex])) {
-			// if (isset($_GET[self::$paginationGetIndex])) {
 				
 				$this->actions = $_GET[self::$paginationGetIndex];
 				$this->notify();
@@ -63,14 +62,14 @@
 			}
 		}
 
+		public function publishPaginationAction () {
+
+			return $this->actions;
+		}
+
 		public function redirectToFirstPage () {
 
 			$firstPage = 1;
 			header('Location: '.$_SERVER['PHP_SELF'] . "?page=$firstPage");
-		}
-
-		public function publishPaginationAction () {
-
-			return $this->actions;
 		}
 	}
