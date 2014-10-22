@@ -9,7 +9,7 @@
 		private static $commentPostIndex = 'comment';
 
 		private static $emptyAuthorErrorMessage = "The name cannot be empty.";
-		private static $shortAuthorErrorMessage = "The name must be minimum 3 characters.";
+		private static $shortAuthorErrorMessage = "The name must contain minimum 3 characters.";
 		private static $longAuthorErrorMessage = "The name can have maximum 45 characters.";
 
 		private static $emptyCommentErrorMessage = "The comment cannot be empty.";

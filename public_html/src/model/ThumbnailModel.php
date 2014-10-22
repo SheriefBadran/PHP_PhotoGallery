@@ -12,7 +12,9 @@
 		private $thumbnailWidth;
 		private $thumbnailHeight;
 
-		private static $photoTypeRegex = '/[.]jpg$/';
+		private static $jpgTypeRegex = '/[.]jpg$/';
+		private static $gifTypeRegex = '/[.]gif$/';
+		private static $pngTypeRegex = '/[.]png$/';
 		private static $photoPath = PhotoUploadDestinationPath;
 		private static $thumbnailPath = ThumbnailPath;
 
@@ -54,17 +56,21 @@
 
 		protected function createImageIdentifier () {
 
-			if (preg_match(self::$photoTypeRegex, $this->uniqueId)) {
+			if (preg_match(self::$jpgTypeRegex, $this->uniqueId)) {
 				
 				$image = imagecreatefromjpeg(PhotoUploadDestinationPath . DS . $this->uniqueId);
 			}
-			else if (preg_match($photoTypeRegex, $this->uniqueId)) {
+			else if (preg_match(self::$gifTypeRegex, $this->uniqueId)) {
 
 				$image = imagecreatefromgif(PhotoUploadDestinationPath . DS . $this->uniqueId);
 			}
-			else if (preg_match($photoTypeRegex, $this->uniqueId)) {
+			else if (preg_match(self::$pngTypeRegex, $this->uniqueId)) {
 
 				$image = imagecreatefrompng(PhotoUploadDestinationPath . DS . $this->uniqueId);
+			}
+			else {
+
+				$image = null;
 			}
 
 			return $image;
@@ -106,6 +112,11 @@
 			}
 
 			$image = $this->createImageIdentifier();
+
+			if (is_null($image)) {
+				
+				throw new \Exception('ThumbnailModel could not create image identifier.');
+			}
 
 			$imageWidth = imagesx($image);
 			$imageHeight = imagesy($image);

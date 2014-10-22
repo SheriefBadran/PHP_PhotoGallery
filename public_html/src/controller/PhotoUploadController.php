@@ -12,6 +12,7 @@
 		private static $size = 'size';
 		private static $caption = 'caption';
 		private static $uniqueId = 'uniqueId';
+		private static $fileUpload = 'fileupload';
 		private static $emptyString = '';
 
 
@@ -29,7 +30,7 @@
 		public function run () {
 				
 			if ($this->photoUploadView->userPressUploadButton()) {
-				
+
 				$this->uploadPhoto();
 			}
 
@@ -39,7 +40,7 @@
 
 		protected function uploadPhoto () {
 
-			$this->fileUploaded = $this->photoFileModel->upload('fileupload');
+			$this->fileUploaded = $this->photoFileModel->upload(self::$fileUpload);
 
 			if ($this->fileUploaded) {
 

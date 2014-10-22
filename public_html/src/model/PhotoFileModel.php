@@ -7,6 +7,7 @@
 		private $uniquePhotoId;
 		private static $destinationPath = PhotoUploadDestinationPath;
 		private static $thumbnailPath = ThumbnailPath;
+		private static $argumentExceptionMessage = 'Param must be of type string';
 
 		public function getUniquePhotoId () {
 
@@ -17,7 +18,7 @@
 
 			if (!is_string($filePath)) {
 				
-				throw new \Exception('Param must be of type string');
+				throw new ArgumentException(self::$argumentExceptionMessage);
 			}
 
 			$finfo = new finfo(FILEINFO_MIME_TYPE);
@@ -34,6 +35,14 @@
 
 		public function upload ($filesKeyIndex) {
 
+			$validMimeType = $this->validatePhotoMimeType($_FILES[$filesKeyIndex]['tmp_name']);
+
+			if ($validMimeType === false) {
+
+				$this->errors[] = 'The file is not a valid photo.';
+				return false;
+			}
+
 			$this->dataResult = $this->getFileData($filesKeyIndex);
 
 			if (!is_array($this->dataResult)) {
@@ -45,14 +54,9 @@
 				
 			$validMimeType = $this->validatePhotoMimeType($this->dataResult[self::$tmpFile]);
 
-			if ($validMimeType === false) {
-
-				$this->errors[] = 'The file is not a valid photo.';
-			}
-
 			if ($dirHandle = opendir(self::$destinationPath)) {
 				
-				if(file_exists(sprintf(self::$destinationPath . '/%s.%s', sha1_file($_FILES['fileupload']['tmp_name']), $validMimeType))) {
+				if(file_exists(sprintf(self::$destinationPath . '/%s.%s', sha1_file($_FILES[$filesKeyIndex]['tmp_name']), $validMimeType))) {
 
 					$this->errors[] = 'The photo is already uploaded!';
 					return false;
@@ -61,19 +65,7 @@
 				closedir($dirHandle);
 			}
 
-
-
-			// if (move_uploaded_file($this->dataResult[self::$tmpFile], self::$destinationPath . "/" . $this->dataResult[self::$actualFileName])) {
-
-			// 	return true;
-			// }
-			// else {
-
-			// 	$this->errors[] = $uploadErrors[$_FILES[$filesKeyIndex]['error']];
-			// 	return false;
-			// }
-			// Some operations to retrieve the unique file name.
-			$uniqueFilePath = sprintf(self::$destinationPath . '/%s.%s', sha1_file($_FILES['fileupload']['tmp_name']), $validMimeType);
+			$uniqueFilePath = sprintf(self::$destinationPath . '/%s.%s', sha1_file($_FILES[$filesKeyIndex]['tmp_name']), $validMimeType);
 			$splitFilePath = explode(DIRECTORY_SEPARATOR, $uniqueFilePath);
 			$this->uniquePhotoId = $splitFilePath[count($splitFilePath) - 1];
 
@@ -82,7 +74,7 @@
 			if ($dirHandle = opendir(self::$destinationPath)) {
 
 				if (move_uploaded_file($_FILES['fileupload']['tmp_name'], 
-					sprintf(self::$destinationPath . '/%s.%s', sha1_file($_FILES['fileupload']['tmp_name']), $validMimeType))
+					sprintf(self::$destinationPath . '/%s.%s', sha1_file($_FILES[$filesKeyIndex]['tmp_name']), $validMimeType))
 				) {
 
 					return true;
