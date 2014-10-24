@@ -53,6 +53,7 @@
 				throw new \Exception(self::$stringArgumentException);
 			}
 
+			// BAD string dependency!!
 			$this->photoId = $photoId;
 			$this->uniqueId = $photoProperties[self::$id];
 			$this->typeId = $photoProperties[self::$photoTypeId];

@@ -13,13 +13,13 @@
 				return false;
 			}
 
-
-			$html = '<p>';
+			$html = '<div id="pagination">';
+			$html .= '<p>';
 
 			// Render previous link.
 			if ($paginationModel->previousPageExist()) {
 
-				$html .= '<a href=index.php?page=' . $paginationModel->getPreviousPage() . '><< Previous</a>';
+				$html .= '<a href=index.php?page=' . $paginationModel->getPreviousPage() . '><span class= "paginationArrow">&laquo;</span> Previous</a>';
 			}
 
 			// Pagination page-numbers
@@ -28,7 +28,7 @@
 				// Current page is not a link.
 				if ($i == $_GET['page']) {
 
-					$html .= "$i";
+					$html .= '<span class="currentPage">' . $i . '</span>';
 				}
 				else {
 
@@ -39,10 +39,11 @@
 			// Render next link.
 			if($paginationModel->nextPageExist()) {
 
-				$html .= '<a href=index.php?page=' . $paginationModel->getNextPage() . '>Next >> </a>';
+				$html .= '<a href=index.php?page=' . $paginationModel->getNextPage() . '>Next<span class= "paginationArrow"> &raquo;</span></a>';
 			}
 
 			$html .= '</p>';
+			$html .= '</div>';
 
 			return $html;
 		}

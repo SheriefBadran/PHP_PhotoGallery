@@ -3,11 +3,10 @@
 	class LoginView {
 
 		private $mainView;
-		private static $loginErrorMessage = "Felaktigt användarnamn och/eller lösenord.";
-		private static $emptyUsernameErrorMessage = "Användarnamn saknas.";
-		private static $emptyPasswordErrorMessage = "Lösenord saknas.";
-		private static $logOutSuccessMessage = "Du är nu utloggad.";
-		private static $corruptCookieLogoutMessage = "Fel information i cookie.";
+		private static $loginErrorMessage = "Incorrect username and/or password.";
+		private static $emptyUsernameErrorMessage = "Username required";
+		private static $emptyPasswordErrorMessage = "Password required";
+		private static $logOutSuccessMessage = "Your are logged out.";
 
 		public static $username = "username";
 	    public static $password = "password";
@@ -27,25 +26,27 @@
 
 			if ($message != '') {
 					
-				$responseMessages .= '<p>' . $message . '</p>';
+				// $responseMessages .= '<p>' . $message . '</p>';
+
+				$responseMessages .=		'<div class="loginMsg">';
+				$responseMessages .=			'<i class="fa fa-info-circle"></i>';
+				$responseMessages .=			$message;
+				$responseMessages .=		'</div>';
 			}
 
 			$loginHTML = 
-			'<h2>Ej Inloggad</h2>' .
 
 			'<form id="login" enctype="multipart/form-data" method="post" action="?login">' .
 				'<fieldset>' .
-					'<legend>Login - Skriv in användarnamn och lösenord</legend>' .
+					'<legend>Login - Please enter username and password.</legend>' .
 					$responseMessages .
-					'<label for="username">Användarnamn : </label>' .
-					'<input type="text" name="username" value="' . $_SESSION['LoginValues']['username'] . '" maxlength="30" id="username" /> ' .
+					'<label class="loginlabel" for="username">Username : </label>' .
+					'<input type="text" name="username" value="' . $_SESSION['LoginValues']['username'] . '" maxlength="30" id="username" /> </br></br> ' .
 
-					'<label for="password">Lösenord : </label>' .
+					'<label class="loginlabel" for="password">Password : </label>' .
 					'<input type="password" name="password" maxlength="30" id="password" /> ' .
 
-					'<label for="rememberMe">Håll mig inloggad :</label>
-					<input id="rememberMe" type="checkbox" name="rememberMe">
-					<input type="submit" name="submit" id="submit" value="Logga in" />
+					'<input type="submit" name="submit" id="loginButton" value="Login" />
 				</fieldset>
 			</form>';
 

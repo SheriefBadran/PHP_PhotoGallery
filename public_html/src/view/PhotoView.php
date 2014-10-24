@@ -20,9 +20,12 @@
 			$caption = htmlspecialchars($photo->getCaption());
 
 			// Render html for photo and caption.
-			$html = '<div id="image">';
-			$html .= '<h3 id="photoName">' . $name . '</h3>';
-			$html .= '<a title="' . $caption . '"><img width=1000 src=' . $photo->getSRC() . '></a>';
+			$html = '<div id="imageWrapper">';
+			$html .=	'<a class="back" href="index.php"><span>&laquo;</span>Back</a>';
+			$html .= 	'<div id="image">';
+			$html .=		'<h3 id="photoName">' . $name . '</h3>';
+			$html .= 		'<a title="' . $caption . '"><img width=1000 src=' . $photo->getSRC() . '></a>';
+			$html .= 	'</div>';
 			$html .= '</div>';
 
 			$commentHTML = $this->renderCommentsHTML($photo->getComments()->toArray());

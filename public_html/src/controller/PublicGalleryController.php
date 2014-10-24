@@ -26,6 +26,12 @@
 			$thumbnailWidth = $this->publicGalleryView->getThumbnailWidth();
 			$totalItems = $this->photoRepository->countAll();
 
+			if ($totalItems === 0) {
+				
+				$this->publicGalleryView->renderEmptyGalleryManagement();
+				exit;
+			}
+
 			try {
 
 				$paginationModel = $this->paginationRepository->createPaginationModel($totalItems, $currentPage);

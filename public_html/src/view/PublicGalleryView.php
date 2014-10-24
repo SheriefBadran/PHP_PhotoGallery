@@ -7,7 +7,7 @@
 		private $paginationView;
 
 		private static $uniquePhotoGetIndex = 'name';
-		private static $thumbnailWidth = 100;
+		private static $thumbnailWidth = 200;
 		private static $noPhotosInGalleryResponseMessage = 'Ooops! The photo gallery seem to suffer a serious lack of photos!';
 
 		public function __construct (HTMLview $mainView, PaginationView $paginationView) {
@@ -18,9 +18,20 @@
 
 		public function renderEmptyGalleryManagementHTML () {
 
-			$html .= '<p>' . self::$noPhotosInGalleryResponseMessage . '</p>';
+
+			$html = '<div class="isa_info">';
+			$html .= '<i class="fa fa-info-circle"></i>';
+			$html .=  	self::$noPhotosInGalleryResponseMessage;
+			$html .= '</div>';
+			// $html = '<p>' . self::$noPhotosInGalleryResponseMessage . '</p>';
 
 			return $html;
+		}
+
+		public function renderEmptyGalleryManagement () {
+
+			$emptyGalleryHTML = $this->renderEmptyGalleryManagementHTML();
+			$this->mainView->echoHTML($emptyGalleryHTML);
 		}
 
 		public function renderGallery (ThumbnailList $thumbnailList, PaginationModel $paginationModel) {
@@ -35,6 +46,7 @@
 				$caption = htmlspecialchars($thumbnail->getCaption());
 				$html .= '<a title="' . $caption . '" href=index.php?page='.$paginationModel->getCurrentPage().'&name='.$uniqueId.'><img src=' . $thumbnail->getSRC() .'></a>';
 			}
+			$html .= '<div class="clear"></div>';
 			$html .= '</section>';
 
 			$paginationHTML = $this->paginationView->renderPaginationHTML($paginationModel);

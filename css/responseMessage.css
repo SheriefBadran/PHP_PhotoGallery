@@ -10,11 +10,15 @@
 .isa_info {
     color: #00529B;
     background-color: #BDE5F8;
+    margin: 40px auto 0;
+    width: 40%;
 }
 
 .isa_success {
     color: #4F8A10;
     background-color: #DFF2BF;
+    margin: 40px auto 0;
+    width: 40%
 }
 
 .isa_warning {
@@ -25,7 +29,16 @@
 .isa_error {
     color: #D8000C;
     background-color: #FFBABA;
+    margin: 10px 0 0;
+    width: 40%;
 }
+
+/*.isa_error_upload {
+    color: #D8000C;
+    background-color: #FFBABA;
+    margin: 40px 0 0;
+    width: 30%;
+}*/
 
 .isa_info i, .isa_success i, .isa_warning i, .isa_error i {
 
@@ -40,4 +53,38 @@
     margin: 10px 22px;
     font-size: 1.3em;
     vertical-align: middle;
+}
+
+.loginMsg i {
+    margin: 10px 22px;
+    font-size: 2em;
+    vertical-align: middle;
+}
+
+.loginMsg {
+
+    border-radius: 5px;
+    color: #00529B;
+    background-color: #BDE5F8;
+    margin: 0px 0px 20px 100px;
+    width: 40%;
+}
+
+.loginResponse i {
+    margin: 10px 22px;
+    font-size: 2em;
+    vertical-align: middle;
+}
+
+.loginResponse {
+    border-radius: 5px;
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    /*margin: 0 auto;*/
+    width: 500px;
+}
+
+#welcome {
+    width: 960px;
+    margin: 0 auto;
 }

@@ -15,6 +15,12 @@
 		private static $emptyCommentErrorMessage = "The comment cannot be empty.";
 		private static $longCommentErrorMessage = "The comment can have maximum 1000 characters.";
 
+		private static $minimumAuthorLength = 3;
+		private static $maximumAuthorLength = 45;
+		private static $maximumCommentLength = 1000;
+
+		private static $emptyString = '';
+
 		public function __construct (SessionModel $sessionModel) {
 
 			$this->sessionModel = $sessionModel;
@@ -26,9 +32,12 @@
 			$this->sessionModel->resetCommentDeleteSuccessMessage();
 			
 			$html = '';
-			if ($forManagement) {
+			if ($forManagement && $deleteConfirmMessage !== '') {
 				
-				$html = '<p>' . $deleteConfirmMessage . '</p>';
+				$html .= '<div class="isa_success">';
+				$html .= 	'<i class="fa fa-check"></i>';
+				$html .=  		$deleteConfirmMessage;
+				$html .= '</div>';
 			}
 			
 			
@@ -37,12 +46,11 @@
 				$author = htmlspecialchars($comment->getAuthor());
 				$text = htmlspecialchars($comment->getText());
 
-				$deleteLink = $forManagement ? '<a href="?action=deletecomment&id='.$comment->getCommentId().'" class="fa fa-times">Delete</a>' : '';
+				$deleteLink = $forManagement ? '<a href="?action=deletecomment&id='.$comment->getCommentId().'" class="fa fa-times"></a>' : '';
 				
 				$html .= '<section class="message">';
 				$html .= 	'<div class="topbar">';
 				$html .=		'<p class="sender">' . $comment->getAuthor() . ' says:</p>';
-				$html .=			$deleteLink;
 				$html .=		'<p class="topbarContainer">';
 				$html .=			'<span class="deleteIcon">';
 				$html .=				$deleteLink;
@@ -87,7 +95,7 @@
 			$html .=		'<div class="commentWrapper">';
 			$html .=			'<textarea maxlength="1000" name="comment" class="commentInput" placeholder="Comment the photo..."></textarea> ';
 			$html .=		'</div>';
-			$html .=		'<div id="subminCommentButton">';
+			$html .=		'<div id="submitCommentButton">';
 			$html .=			'<input type="submit" name="submitcomment" id="submitComment" value="Send Comment" />';
 			$html .=		'</div>';
 			$html .=	'</fieldset>';
@@ -103,40 +111,43 @@
 
 		public function getAuthor () {
 
-			$author = $this->cleanString($_POST[self::$authorPostIndex]);
-
-			if (empty($author) || $author == '') {
+			if (isset($_POST[self::$authorPostIndex])) {
 				
-				$this->sessionModel->setAuthorErrorMessage(self::$emptyAuthorErrorMessage);
-				return false;
-			}
+				$author = $this->cleanString($_POST[self::$authorPostIndex]);
 
-			if (strlen($author) < 3) {
-				
-				$this->sessionModel->setAuthorErrorMessage(self::$shortAuthorErrorMessage);
-				return false;
-			}
+				if (empty($author) || $author == '') {
+					
+					$this->sessionModel->setAuthorErrorMessage(self::$emptyAuthorErrorMessage);
+					return false;
+				}
 
-			if (strlen($author) > 45) {
-				
-				$this->sessionModel->setAuthorErrorMessage(self::$longAuthorErrorMessage);
-				return false;
-			}
+				if (strlen($author) < self::$minimumAuthorLength) {
+					
+					$this->sessionModel->setAuthorErrorMessage(self::$shortAuthorErrorMessage);
+					return false;
+				}
 
-			return $author;
+				if (strlen($author) > self::$maximumAuthorLength) {
+					
+					$this->sessionModel->setAuthorErrorMessage(self::$longAuthorErrorMessage);
+					return false;
+				}
+
+				return $author;
+			}
 		}
 
 		public function getComment () {
 
 			$comment = $this->cleanString($_POST[self::$commentPostIndex]);
 
-			if (empty($comment) || $comment == '') {
+			if (empty($comment) || $comment == self::$emptyString) {
 				
 				$this->sessionModel->setCommentErrorMessage(self::$emptyCommentErrorMessage);
 				return false;
 			}
 
-			if (strlen($comment) > 1000) {
+			if (strlen($comment) > self::$maximumCommentLength) {
 				
 				$this->sessionModel->setCommentErrorMessage(self::$longCommentErrorMessage);
 				return false;

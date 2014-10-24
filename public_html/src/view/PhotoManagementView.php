@@ -5,7 +5,7 @@
 		private $commentsView;
 		private $sessionModel;
 
-		private static $adminThumbnailWidth = 100;
+		private static $adminThumbnailWidth = 200;
 
 		private static $action = 'action';
 		private static $name = 'name';
@@ -21,6 +21,7 @@
 		private static $photoDeleteSuccessMessage = 'The photo was successfully deleted.';
 		private static $commentDeleteSuccessMessage = 'The comment was successfully deleted.';
 		private static $noPhotosInGalleryResponseMessage = 'Ooops! Not even one photo in the gallery. Go ahead and upload!';
+		private static $noCommentsOnPhotoResponseMessage = 'There are no comments on this photo.';
 
 		public function __construct (HTMLview $mainView, CommentsView $commentsView, SessionModel $sessionModel) {
 
@@ -31,11 +32,10 @@
 
 		public function renderMenuHTML () {
 
-			$html = '<nav>';
+			$html = '<nav class="menu">';
 			$html .= 	'<ul>';
 			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionUpload . '>Upload new photo</a></li>';
-			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionManageGallery . '>Manage Photo\'s</a></li>';
-			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionErrorlog . '>View error log</a></li>';
+			$html .= 		'<li><a class="active" href=?' . self::$action . "=" . self::$actionManageGallery . '>Manage Photo\'s</a></li>';
 			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionLogout . '>Logout</a></li>';
 			$html .= 	'</ul>';
 			$html .= '</nav>';
@@ -45,8 +45,10 @@
 
 		public function renderEmptyGalleryManagementHTML () {
 
-			$html = $this->renderMenuHTML();
-			$html .= '<p>' . self::$noPhotosInGalleryResponseMessage . '</p>';
+			$html = '<div class="isa_info">';
+			$html .= '<i class="fa fa-info-circle"></i>';
+			$html .=  	self::$noPhotosInGalleryResponseMessage;
+			$html .= '</div>';
 
 			return $html;
 		}
@@ -61,21 +63,38 @@
 
 			$html = $this->renderMenuHTML();
 
-			$html .= '<p>' . $uploadConfirmMessage . '</p>';
-			$html .= '<p>' . $deleteConfirmMessage . '</p>';
+			if ($uploadConfirmMessage !== '') {
+
+				$html .= '<div class="isa_success">';
+				$html .= 	'<i class="fa fa-check"></i>';
+				$html .=  		$uploadConfirmMessage;
+				$html .= '</div>';
+			}
+
+			if ($deleteConfirmMessage !== '') {
+				
+				$html .= '<div class="isa_success">';
+				$html .= 	'<i class="fa fa-check"></i>';
+				$html .=  		$deleteConfirmMessage;
+				$html .= '</div>';
+			}
 
 
-			$html .=  "<h2>Manage photo's</h2>";
-			$html .= '<table>';
-			$html .=	'<tr>';
-			$html .=		'<th>Image</th>';
-			$html .=		'<th>Name</th>';
-			$html .=		'<th>Caption</th>';
-			$html .=		'<th>Size</th>';
-			$html .=		'<th>Type</th>';
-			$html .=		'<th>Comments</th>';
+			$html .=  "<h2>Manage Photo's</h2>";
+			$html .= '<table id="management">';
+			$html .=	'<thead>';
+			$html .=		'<tr>';
+			$html .=			'<th>Image</th>';
+			$html .=			'<th>Name</th>';
+			$html .=			'<th>Caption</th>';
+			$html .=			'<th>Size</th>';
+			$html .=			'<th>Type</th>';
+			$html .=			'<th>Comments</th>';
+			$html .=			'<th></th>';
 			// $html .=		'<th>&nbsp;</th>';
-			$html .=	'<tr>';
+			$html .=		'<tr>';
+			$html .=	'</thead>';
+			$html .=	'<tbody>';
 
 			foreach ($thumbnails as $thumbnail) {
 
@@ -100,6 +119,7 @@
 				$html .= '</tr>';
 			}
 
+			$html .=	'</tbody>';
 			$html .= '</table>';
 
 			return $html;
@@ -132,7 +152,10 @@
 			$html = $this->renderMenuHTML();
 
 			// TODO: Remove this string dep.
-			$html .= '<p>There are no comments on this photo.</p>';
+			$html = '<div class="isa_info">';
+			$html .= '<i class="fa fa-info-circle"></i>';
+			$html .=  	self::$noCommentsOnPhotoResponseMessage;
+			$html .= '</div>';
 			$this->mainView->echoHTML($html);
 		}
 

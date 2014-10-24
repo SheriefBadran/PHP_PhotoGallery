@@ -3,20 +3,35 @@
 	padding: 0;
 }
 
+html, body {
+	/*position: relative;*/
+	height: 100%;
+	font-family: Arial;
+}
+
+h1 {
+	width: 960px;
+	margin: 15px auto;
+	font-family: Arial;
+}
+
+h2 {
+	width: 960px;
+	font-family: Arial;
+	margin: 0 auto 10px auto;
+	clear: both;
+}
+
+p.introMsg {
+	width: 960px;
+	margin: 0 auto;
+	font-family: Arial;
+	font-size: 1.1em;
+}
+
 .topBar {
 	position: relative;
-	/*background-color: #872277;*/
-	/*background-color: #04376C;*/
 	background-color: #332E2D;
-/*	-webkit-border-radius: 0 20px 0 0;
-	-o-border-radius: 0 20px 0 0;
-	-ms-border-radius:  0 20px 0 0;
-	border-radius: 0 20px 0 0;*/
-	/*background-image: -o-linear-gradient(90deg, rgb(0,0,0), rgb(70,70,70));
-	background-image: linear-gradient(90deg, rgb(0,0,0), rgb(70,70,70));*/
-
-
-	/*border-bottom: 1px solid #000;*/
 	width: 100%;
 	height: 30px;
 	display: block;
@@ -62,9 +77,9 @@
 section.message {
 	position: relative;
 	/*min-width: 300px;*/
-	width: 1015px;
+	width: 1019px;
 	height: auto;
-	margin-left: 20%;
+	margin: 0 auto;
 	background-color: #fff;
 	overflow: auto;
 	border: 1px solid #000;
@@ -159,7 +174,7 @@ p .editIcon a {
 }
 
 fieldset {
-
+	margin: 40px 0 20px 0;
 	padding: 30px;
 }
 
@@ -178,6 +193,22 @@ legend {
 
 #commentForm {
 
-	margin: 1% 0 0 20%;
-	width: 1015px;
+	margin: 0 auto;
+	width: 1023px;
+	clear: both;
+}
+
+#submitCommentButton {
+	margin: 15px 0 0 600px;
+	width: 200px;
+}
+
+#submitCommentButton input[type="submit"] {
+    padding: 5px 15px;
+    font-family: Arial;
+    background: rgb(0, 102, 153);
+    font-size: 1em;
+    color: #fff;
+    margin-left: 15px;
+    border-radius: 5px;
 }

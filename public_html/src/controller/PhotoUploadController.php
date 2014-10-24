@@ -40,10 +40,21 @@
 
 		protected function uploadPhoto () {
 
+			// This if statement is added long after first impl.
+			// View checks if caption contains to many chars.
+			// TODO: The rule should be implemented in the model as well.
+			if ($this->photoUploadView->getPhotoCaption() === false) {
+
+				// No upload is done, upload form rendered again.
+				$this->photoUploadView->renderPhotoUploadForm(self::$emptyString, false);
+				exit;
+			}
+
 			$this->fileUploaded = $this->photoFileModel->upload(self::$fileUpload);
 
 			if ($this->fileUploaded) {
 
+				// TODO: Str dep problems when building this array and passing it to a ctor. 
 				$photoProperties = array();
 				$dataResult = $this->photoFileModel->getDataResult();
 				$photoProperties[self::$name] = $dataResult['uploadedFileName'];
@@ -66,11 +77,14 @@
 
 						$this->photoFileModel->unlink($photoModel);
 					}
-				} 
+				}
+				// TODO: Not a good solution, don't print the $e error to the user. Also not sure about the PhotoNameAlreadyExistException.
 				catch (PhotoNameAlreadyExistException $e) {
 
 					$dataResult = $this->photoFileModel->unlink($photoModel);
 					$this->photoFileModel->errors[] = $e->getMessage();
+
+					// TODO: Change the errors array to a variable!
 					$this->photoUploadView->renderPhotoUploadForm($this->photoFileModel->errors[0], false);
 					exit;
 				}
@@ -82,6 +96,7 @@
 			}
 			else {
 
+				// TODO: Change the errors array to a variable!
 				$this->photoUploadView->renderPhotoUploadForm($this->photoFileModel->errors[0], false);
 				exit;
 			}

@@ -12,9 +12,15 @@ class HTMLview {
 		$month = date("M");
 		$day = (int)(date("d"));
 
+		$weekDay = date("l", strtotime(date("d").'-'.date("M").'-'.date("Y")));
+		$month = strftime("%B", time());
+
+		// $month = strftime((string)date("M"));
 		$sweWeekday = $this->GetSwedishWeekday(date("d"), date("M"), date("Y"));
 		$sweMonth = $this->GetSwedishMonth(strftime("%Y"), strftime("%m"), strftime("%d"));
-		$date = '<p id="date">' . $sweWeekday . ', den ' . $day . ' ' . $sweMonth . ' år ' . $year . '. ' . 'Klockan är ' . $time . '</p>';
+		$date = '<div id="date">';
+		$date .= '<p>' . $weekDay . ', ' . $month . ' ' . $year . '. ' . 'Time is ' . $time . '</p>';
+		$date .= '</div>';
 
         echo "
 			<!DOCTYPE html>
@@ -23,15 +29,24 @@ class HTMLview {
 				    <title>Photo Gallery</title>
 				    <meta name='viewport' content='width=device-width'>
 				    <meta http-equiv='content-type' content='text/html; charset=utf-8' />
-				    <link href='../css/photo.css' rel='stylesheet' />
-				    <link href='../css/photoView.css' rel='stylesheet' />
-				    <link href='../css/comment.css' rel='stylesheet' />
-				    <link href='../css/responseMessage.css' rel='stylesheet' />
+				    <link href='http://localhost:8888/www/git/PHP_PhotoGallery/css/photo.css' rel='stylesheet' />
+				    <link href='http://localhost:8888/www/git/PHP_PhotoGallery/css/photoView.css' rel='stylesheet' />
+				    <link href='http://localhost:8888/www/git/PHP_PhotoGallery/css/comment.css' rel='stylesheet' />
+				    <link href='http://localhost:8888/www/git/PHP_PhotoGallery/css/responseMessage.css' rel='stylesheet' />
+				    <link href='http://localhost:8888/www/git/PHP_PhotoGallery/css/gallery.css' rel='stylesheet' />
+				    <link href='http://localhost:8888/www/git/PHP_PhotoGallery/css/pagination.css' rel='stylesheet' />
+				    <link href='http://localhost:8888/www/git/PHP_PhotoGallery/css/date.css' rel='stylesheet' />
+				    <link href='http://localhost:8888/www/git/PHP_PhotoGallery/css/nav.css' rel='stylesheet' />
+				    <link href='http://localhost:8888/www/git/PHP_PhotoGallery/css/table.css' rel='stylesheet' />
+				    <link href='http://localhost:8888/www/git/PHP_PhotoGallery/css/upload.css' rel='stylesheet' />
+				    <link href='http://localhost:8888/www/git/PHP_PhotoGallery/css/login.css' rel='stylesheet' />
 				</head>
 				<body>
 					<h1>Photo Gallery</h1>
 					$body
+					<footer>
 					$date
+					</footer>
 				</body>
 			</html>";
     }

@@ -28,7 +28,7 @@
 		private static $fileType = 'type';
 
 		private static $argumentIntException = "Param must be an integer.";
-		private static $argumentStringException = "Param must be an integer.";
+		private static $argumentStringException = "Param must be a string.";
 		private static $emptyRecordException = "There are zero results to fetch.";
 		private static $databaseFetchAllErrorException = "fetchAll failed to fetch results";
 		private static $databaseFetchErrorException = "fetch failed to fetch results";

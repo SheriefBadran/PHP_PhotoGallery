@@ -123,7 +123,6 @@
 
 			// Calculate the thumbnail height with respect to the desired width.
 			$this->thumbnailHeight = $this->calculateThumbnailHeight($imageWidth, $imageHeight);
-
 			$imageTrueColorResource = imagecreatetruecolor($this->thumbnailWidth, $this->thumbnailHeight);
 
 			imagecopyresampled($imageTrueColorResource, $image, 0, 0, 0, 0, $this->thumbnailWidth, $this->thumbnailHeight, $imageWidth, $imageHeight);

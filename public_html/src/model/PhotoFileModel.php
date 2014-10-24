@@ -2,12 +2,20 @@
 	
 	class PhotoFileModel extends FileModel {
 
+		// TODO: Change the errors array to a variable!
 		public $errors = array();
 		private $dataResult = array();
 		private $uniquePhotoId;
 		private static $destinationPath = PhotoUploadDestinationPath;
 		private static $thumbnailPath = ThumbnailPath;
 		private static $argumentExceptionMessage = 'Param must be of type string';
+		private static $noPhotoErrorMessage = 'No photo was uploaded.';
+
+		// TODO: Fix internal string dependency, how to use $maximumPhotoNameLength when initializing $longPhotoNameErrorMessage.
+		private static $longPhotoNameErrorMessage = 'The photo name can have maximum 55 characters.';
+		private static $maximumPhotoNameLength = 55;
+
+		private static $notValidPhotoErrorMessage = 'The file was not a valid photo.';
 
 		public function getUniquePhotoId () {
 
@@ -35,11 +43,29 @@
 
 		public function upload ($filesKeyIndex) {
 
-			$validMimeType = $this->validatePhotoMimeType($_FILES[$filesKeyIndex]['tmp_name']);
+			// TODO: Implement this validation rule in the $photoModel as well, throw exception and take care of it.
+			if (!empty($_FILES[$filesKeyIndex]['name']) && strlen($_FILES[$filesKeyIndex]['name']) <= self::$maximumPhotoNameLength) {
+
+				$validMimeType = $this->validatePhotoMimeType($_FILES[$filesKeyIndex]['tmp_name']);
+			}
+			else {
+
+				if (empty($_FILES[$filesKeyIndex]['name'])) {
+					
+					$this->errors[] = self::$noPhotoErrorMessage;
+				}
+				else {
+
+					$this->errors[] = self::$longPhotoNameErrorMessage;
+				}
+
+				return false;
+			}
+			
 
 			if ($validMimeType === false) {
 
-				$this->errors[] = 'The file is not a valid photo.';
+				$this->errors[] = self::$notValidPhotoErrorMessage;
 				return false;
 			}
 

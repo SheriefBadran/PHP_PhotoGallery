@@ -10,6 +10,7 @@
 		private static $securitySessionName = 'unique';
 		private static $hashString = "sha256";
 		private static $photoSession = 'photos';
+		private static $caption = 'caption';
 		private static $uploadSuccessMessage = 'upLoadMessage';
 		private static $deletePhotoSuccessMessage = 'deletePhotoMessage';
 		private static $deleteCommentSuccessMessage = 'deleteCommentMessage';
@@ -198,6 +199,24 @@
 				$_SESSION[self::$comment][self::$text] = self::$emptyString;
 			}
 			
+			return $errorMsg;
+		}
+
+		public function setCaptionErrorMessage ($message) {
+
+			$_SESSION[self::$photoSession][self::$caption] = $message;
+		}
+
+		public function getCaptionErrorMessage () {
+
+			$errorMsg = self::$emptyString;
+			
+			if (isset($_SESSION[self::$photoSession][self::$caption])) {
+
+				$errorMsg = $_SESSION[self::$photoSession][self::$caption];
+				$_SESSION[self::$photoSession][self::$caption] = self::$emptyString;
+			}
+
 			return $errorMsg;
 		}
 	}

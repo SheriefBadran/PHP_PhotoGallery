@@ -1,0 +1,31 @@
+#upload {
+
+	width: 960px;
+	margin: 0 auto;
+}
+
+#upload input[type="submit"] {
+	padding: 5px 15px;
+	font-family: Arial;
+	background: rgb(0, 102, 153);
+	font-size: 1em;
+	color: #fff;
+	margin-left: 15px;
+	border-radius: 5px;
+}
+
+#upload input[type="file"] {
+	padding: 5px 15px;
+	font-family: Arial;
+	font-size: 1em;
+	color: #000;
+	margin-left: 15px;
+	border-radius: 5px;
+}
+
+/*#upload .label {
+
+	width: 200px;
+	display: inline-block;
+	vertical-align: top;
+}*/

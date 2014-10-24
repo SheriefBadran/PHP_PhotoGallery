@@ -24,9 +24,21 @@
 
 		public function renderAdminNavHTML ($message = '', $autoLoginIsSet = false) {
 
-			$successMessage = isset($_GET['login']) ? '<p>' . $message . '</p>' : "";
-			$username = '';
 
+			$successMessage = '';
+
+			if (isset($_GET['login']) && $message !== '') {
+
+				$successMessage .= '<div class="loginResponse">';
+				$successMessage .= '<i class="fa fa-check"></i>';
+				$successMessage .= 		$message;
+				$successMessage .= '</div>';
+			}
+			else {
+				$successMessage = '';
+			}
+
+			$username = '';
 
 			if ($this->sessionModel->userSessionIsSet()) {
 
@@ -38,16 +50,20 @@
 				$username = $this->cookieStorage->getCookieUsername();
 			}
 
-			$html = '<h2>Welcome ' . $username . '</h2>'; 
-			$html .= $successMessage;
-			$html .= '<nav>';
+			
+			
+			$html = '<nav class="menu">';
 			$html .= 	'<ul>';
 			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionUpload . '>Upload new photo</a></li>';
 			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionManageGallery . '>Manage Photo\'s</a></li>';
-			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionErrorlog . '>View error log</a></li>';
 			$html .= 		'<li><a href=?' . self::$action . "=" . self::$actionLogout . '>Logout</a></li>';
 			$html .= 	'</ul>';
 			$html .= '</nav>';
+			$html .= '<div id="welcome">';
+			$html .= 	'<h2>Welcome ' . $username . '</h2>'; 
+			$html .= 	$successMessage;
+			$html .= 	'<p class="introMsg">Please make a choice in the menu.</p>';
+			$html .= '</div>';
 
 			return $html;
 		}
