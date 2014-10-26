@@ -5,8 +5,8 @@
 		protected $error;
 		protected $uploadErrors = array(
 			UPLOAD_ERR_OK		   =>	"File successfully uploaded.",
-			UPLOAD_ERR_INI_SIZE	   =>	"File exceeds upload_max_filesize.",
-			UPLOAD_ERR_FORM_SIZE   =>	"File exceeds MAX_FILE_SIZE.",
+			UPLOAD_ERR_INI_SIZE	   =>	"File exceeds upload max filesize.",
+			UPLOAD_ERR_FORM_SIZE   =>	"File exceeds max file size.",
 			UPLOAD_ERR_PARTIAL	   =>	"The uploaded file was only partially uploaded.",
 			UPLOAD_ERR_NO_FILE	   =>	"No file was uploaded.",
 			UPLOAD_ERR_NO_TMP_DIR  =>	"Missing a temporary folder.",

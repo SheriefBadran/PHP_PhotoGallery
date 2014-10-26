@@ -75,13 +75,13 @@
 					}
 					else {
 
-						$this->photoFileModel->unlink($photoModel);
+						$this->photoFileModel->unlink($photoModel->getUniqueId());
 					}
 				}
 				// TODO: Not a good solution, don't print the $e error to the user. Also not sure about the PhotoNameAlreadyExistException.
 				catch (PhotoNameAlreadyExistException $e) {
 
-					$dataResult = $this->photoFileModel->unlink($photoModel);
+					$dataResult = $this->photoFileModel->unlink($photoModel->getUniqueId());
 					$this->photoFileModel->errors[] = $e->getMessage();
 
 					// TODO: Change the errors array to a variable!

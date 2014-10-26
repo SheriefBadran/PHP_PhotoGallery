@@ -4,6 +4,7 @@ class HTMLview {
     public function echoHTML($body) {
 
         if ($body === NULL) {
+        	
             throw new \Exception("HTMLview::echoHTML does not allow body to be null");
         }
 

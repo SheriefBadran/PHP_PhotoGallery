@@ -4,8 +4,8 @@
 
 		private $mainView;
 		private static $loginErrorMessage = "Incorrect username and/or password.";
-		private static $emptyUsernameErrorMessage = "Username required";
-		private static $emptyPasswordErrorMessage = "Password required";
+		private static $emptyUsernameErrorMessage = "Username is required.";
+		private static $emptyPasswordErrorMessage = "Password is required.";
 		private static $logOutSuccessMessage = "Your are logged out.";
 
 		public static $username = "username";

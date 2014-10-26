@@ -82,6 +82,10 @@
 
 		public function deletePhoto ($uniqueId) {
 
+			$uniqueId = stripslashes(trim($uniqueId));
+			$uniqueId = str_replace(array(";", "&", "#"), "", $uniqueId);
+			$uniqueId = filter_var($uniqueId, FILTER_SANITIZE_STRING);			
+
 			try {
 
 				$db = $this->dbFactory->createInstance();

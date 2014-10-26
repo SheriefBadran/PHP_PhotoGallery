@@ -1,5 +1,6 @@
 <?php
-	
+	// TODO: FIRST THOUGHT WAS TO HAVE A MORE GENERAL FILEMODEL BUT AS IT IS NOW, IF THERE WAS TIME LEFT, I WOULD HAVE
+	// REVERSED THAT DESITION TO PUT ALL LOGIC INTO THE PhotoFileModel, AND ALSO REARRANGE THE ORDER OF OPERATIONS.
 	class PhotoFileModel extends FileModel {
 
 		// TODO: Change the errors array to a variable!
@@ -120,6 +121,8 @@
 			if ($uniqueId === null) { return false; }
 
 			$uniqueId = stripslashes(trim($uniqueId));
+			$uniqueId = str_replace(array(";", "&", "#"), "", $uniqueId);
+
 			$uniqueId = filter_var($uniqueId, FILTER_SANITIZE_STRING);
 
 			$photoDeleted = false;
@@ -130,23 +133,31 @@
 			if ($dirHandle && file_exists(self::$thumbnailPath . DIRECTORY_SEPARATOR . $uniqueId)) {
 				
 				$thumbnailDeleted = unlink(self::$thumbnailPath . DIRECTORY_SEPARATOR . $uniqueId);
-				closedir($dirHandle);
 			}
+			closedir($dirHandle);
 
 			$dirHandle = opendir(self::$destinationPath);
 
 			if ($thumbnailDeleted && $dirHandle) {
 				
 				$photoDeleted = unlink(self::$destinationPath . DIRECTORY_SEPARATOR . $uniqueId);
-				closedir($dirHandle);
 			}
+			closedir($dirHandle);
 
 			return $photoDeleted;
 		}
 
 		public function unlink ($fileName) {
 
-			return unlink(self::$destinationPath . DIRECTORY_SEPARATOR . $fileName);
+			//TODO: Let the controller know if the file was not deleted! unlink returns bool on either success or failure.
+			$dirHandle = opendir(self::$destinationPath);
+
+			if (file_exists(self::$destinationPath . DIRECTORY_SEPARATOR . $fileName)) {
+				
+				unlink(self::$destinationPath . DIRECTORY_SEPARATOR . $fileName);
+			}
+
+			closedir($dirHandle);
 		}
 
 		public function getDataResult () {
