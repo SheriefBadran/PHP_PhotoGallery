@@ -23,3 +23,6 @@ Administration av fotogalleri:
 PHP_PhotoGallery/publi_html/admin/admin.php
 
 För att CSS ska fungera korrekt, är det lämpligt att ändra link href i filen PHP_PhotoGallery/data/HTMLview.php.
+
+För styrning av paginering/ändring av hur många bilder som visas per sida öppna filen PHP_PhotoGallery/public_html/scr/model/PaginationRepository.php och ändra defaultvärdet för variabeln $itemsEachPage i parameter listan.
+Detta är ett default värde för att jag från början tänkt låta användaren styra genom en select meny. Men har ej hunnit detta och default parametern får vara kvar sålänge.

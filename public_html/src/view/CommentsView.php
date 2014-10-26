@@ -39,6 +39,13 @@
 				$html .=  		$deleteConfirmMessage;
 				$html .= '</div>';
 			}
+
+			if ($forManagement) {
+				
+				$html .= '<div id = "backFromComments">';
+				$html .= '<a class="back" href="admin.php?action=manage"><span>&laquo;</span>Back</a>';
+				$html .= '</div>';
+			}
 			
 			
 			foreach ($comments as $comment) {
@@ -47,7 +54,6 @@
 				$text = htmlspecialchars($comment->getText());
 
 				$deleteLink = $forManagement ? '<a href="?action=deletecomment&id='.$comment->getCommentId().'" class="fa fa-times"></a>' : '';
-				
 				$html .= '<section class="message">';
 				$html .= 	'<div class="topbar">';
 				$html .=		'<p class="sender">' . $comment->getAuthor() . ' says:</p>';

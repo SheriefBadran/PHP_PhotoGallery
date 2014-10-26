@@ -77,7 +77,7 @@ p.introMsg {
 section.message {
 	position: relative;
 	/*min-width: 300px;*/
-	width: 1019px;
+	width: 960px;
 	height: auto;
 	margin: 0 auto;
 	background-color: #fff;
@@ -194,7 +194,7 @@ legend {
 #commentForm {
 
 	margin: 0 auto;
-	width: 1023px;
+	width: 960px;
 	clear: both;
 }
 
@@ -211,4 +211,9 @@ legend {
     color: #fff;
     margin-left: 15px;
     border-radius: 5px;
+}
+
+#backFromComments {
+	width: 960px;
+	margin: 0 auto 20px auto;
 }

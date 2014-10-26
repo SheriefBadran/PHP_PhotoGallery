@@ -75,8 +75,10 @@
 			$html .= 	'<input type="submit" name="upload" value="Upload">';
 			$html .= '</form>';
 
-			$html .= $messageHTML;
-			$html .= $captionResponseHTML;
+			$html .= '<div id="uploadResponse">';
+			$html .= 	$messageHTML;
+			$html .= 	$captionResponseHTML;
+			$html .= '</div>';
 
 			return $html;
 		}

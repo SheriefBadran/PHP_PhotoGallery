@@ -71,7 +71,7 @@
 			}
 
 			// USER IS ALREADY LOGGED IN AND RELOADS PAGE or USER LOGGED IN WITH REMEMBER ME AND RELOADS
-			if ($sessionModel->isLoggedIn() || $adminNavView->rememberMe()) {
+			if ($sessionModel->isLoggedIn()) {
 
 				$onReload = true;
 
@@ -83,16 +83,7 @@
 					return false;
 				}
 
-				// Check if somebody manipulated cookies.
-				// This if statement only checks the or block if user klicked remember me because of the && - operator.
-				if ( $adminNavView->rememberMe() && ($this->userCredentialManipulated() || $this->cookieDateManipulated()) ) {
-
-					$this->logoutUser(false);
-					return false;
-				}
-
 				$adminNavView->renderAdminNav(false, $onReload);
-
 				return true;
 			}
 		}

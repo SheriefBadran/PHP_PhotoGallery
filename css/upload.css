@@ -23,6 +23,12 @@
 	border-radius: 5px;
 }
 
+#uploadResponse {
+
+	width: 960px;
+	margin: 0 auto;
+}
+
 /*#upload .label {
 
 	width: 200px;

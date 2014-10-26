@@ -6,6 +6,7 @@
 		private $commentsView;
 
 		private static $nameGetIndex = 'name';
+		private static $page = 'page';
 
 		public function __construct (HTMLview $mainView, CommentsView $commentsView) {
 
@@ -19,9 +20,11 @@
 			$name = htmlspecialchars($photo->getName());
 			$caption = htmlspecialchars($photo->getCaption());
 
+			$page = isset($_GET[self::$page]) ? $_GET[self::$page] : '1';
+
 			// Render html for photo and caption.
 			$html = '<div id="imageWrapper">';
-			$html .=	'<a class="back" href="index.php"><span>&laquo;</span>Back</a>';
+			$html .=	'<a class="back" href="index.php?page=' . $_GET[self::$page] .'"><span>&laquo;</span>Back</a>';
 			$html .= 	'<div id="image">';
 			$html .=		'<h3 id="photoName">' . $name . '</h3>';
 			$html .= 		'<a title="' . $caption . '"><img width=1000 src=' . $photo->getSRC() . '></a>';

@@ -17,7 +17,7 @@
 .isa_success {
     color: #4F8A10;
     background-color: #DFF2BF;
-    margin: 40px auto 0;
+    margin: 40px auto 20px;
     width: 40%
 }
 
@@ -29,8 +29,8 @@
 .isa_error {
     color: #D8000C;
     background-color: #FFBABA;
-    margin: 10px 0 0;
-    width: 40%;
+    margin: 10px 0 20px;
+    width: 50%;
 }
 
 /*.isa_error_upload {
