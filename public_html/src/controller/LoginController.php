@@ -58,8 +58,7 @@
 				// If comparison to database succeeded login user and render memberarea.
 				if ($result === true) {
 
-					$autoLoginIsSet = $loginView->AutoLoginIsChecked();
-					$adminNavView->renderAdminNav($autoLoginIsSet, $onReload);
+					$adminNavView->renderAdminNav($onReload);
 
 					return true;
 				}
@@ -70,7 +69,7 @@
 				}
 			}
 
-			// USER IS ALREADY LOGGED IN AND RELOADS PAGE or USER LOGGED IN WITH REMEMBER ME AND RELOADS
+			// USER IS ALREADY LOGGED IN AND RELOADS PAGE
 			if ($sessionModel->isLoggedIn()) {
 
 				$onReload = true;
@@ -83,7 +82,7 @@
 					return false;
 				}
 
-				$adminNavView->renderAdminNav(false, $onReload);
+				$adminNavView->renderAdminNav($onReload);
 				return true;
 			}
 		}
@@ -114,14 +113,6 @@
 
 				// TODO: Check that this is not done more than once.
 				$this->sessionModel->loginUser($user);
-
-				if ($this->loginView->AutoLoginIsChecked()) {
-
-					// TODO: Change 30 to a constant/variable.
-					$cookieExpTime = time() + 30;
-					$this->adminNavView->saveUserCredentials($username, $password, $cookieExpTime);
-					$this->userRepository->saveCookieExpTime($user->getUniqueId(), $cookieExpTime);
-				}
 
 				return true;
 			}

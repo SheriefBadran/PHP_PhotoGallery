@@ -5,6 +5,7 @@
 		private $commentRepository;
 		private $photoManagementView;
 		private $photoFileModel;
+		private $sessionModel;
 
 		private static $actionDelete = 'delete';
 		private static $actionViewComments = 'viewcomments';
@@ -24,6 +25,12 @@
 
 		protected function deleteComment () {
 
+			if (!$this->photoManagementView->isLoggedIn()) {
+
+				$this->photoManagementView->redirectToStart();
+				exit;
+			}
+
 			$commentId = $this->photoManagementView->getCommentId();
 			$commentDeleted = $this->commentRepository->deleteComment($commentId);
 
@@ -41,6 +48,12 @@
 		}
 
 		protected function showComments () {
+
+			if (!$this->photoManagementView->isLoggedIn()) {
+
+				$this->photoManagementView->redirectToStart();
+				exit;
+			}
 
 			$uniqueId = $this->photoManagementView->getUniquePhotoId();
 			$photoId = $this->photoRepository->getPhotoId($uniqueId);
@@ -66,6 +79,12 @@
 		}
 
 		protected function deletePhoto () {
+
+			if (!$this->photoManagementView->isLoggedIn()) {
+
+				$this->photoManagementView->redirectToStart();
+				exit;
+			}
 
 			$uniqueId = $this->photoManagementView->getUniquePhotoId();
 			$filesDeleted = $this->photoFileModel->removePhoto($uniqueId);
@@ -94,6 +113,12 @@
 
 		public function run () {
 
+			if (!$this->photoManagementView->isLoggedIn()) {
+
+				$this->photoManagementView->redirectToStart();
+				exit;
+			}
+
 			$thumbnailWidth = $this->photoManagementView->getAdminThumbnailWidth();
 
 			try {
@@ -113,6 +138,12 @@
 		}
 
 		public function subscribe (Publisher $publisher) {
+
+			if (!$this->photoManagementView->isLoggedIn()) {
+
+				$this->photoManagementView->redirectToStart();
+				exit;
+			}
 
 			$deletePhotoAction = $publisher->publishDeletePhotoAction();
 			$viewCommentsAction = $publisher->publishViewCommentsAction();

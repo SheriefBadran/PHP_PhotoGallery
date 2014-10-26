@@ -67,8 +67,11 @@
 
 		public function logoutUser () {
 
-			unset($_SESSION[self::$sessionUniqueId]);
-			$this->isLoggedIn = false;
+			if (isset($_SESSION[self::$sessionUniqueId])) {
+				
+				unset($_SESSION[self::$sessionUniqueId]);
+				$this->isLoggedIn = false;
+			}
 		}
 
 		public function isStolen ($validId) {

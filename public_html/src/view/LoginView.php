@@ -107,18 +107,6 @@
 			return true;
 		}
 
-		public function autoLoginIsChecked () {
-
-			$isChecked = false;
-
-			if (isset($_POST['rememberMe'])) {
-				
-				$isChecked = $_POST['rememberMe'];
-			}
-
-			return ($isChecked == 'true' || $isChecked == 'on') ? true : false;
-		}
-
 		public function getLoginErrorMessage () {
 
 			$errorMessage;

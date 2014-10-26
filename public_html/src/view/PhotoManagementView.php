@@ -253,6 +253,16 @@
 			$this->sessionModel->resetCommentDeleteSuccessMessage();
 		}
 
+		public function isLoggedIn () {
+
+			return $this->sessionModel->isLoggedIn();
+		}
+
+		public function redirectToStart () {
+
+			header('Location: '.$_SERVER['PHP_SELF']);
+		}
+
 		public function redirect ($path) {
 
 			header('Location: '.$path);

@@ -22,7 +22,7 @@
 			$this->sessionModel = new SessionModel();
 		}
 
-		public function renderAdminNavHTML ($message = '', $autoLoginIsSet = false) {
+		public function renderAdminNavHTML ($message = '') {
 
 
 			$successMessage = '';
@@ -44,13 +44,7 @@
 
 				$username = $this->sessionModel->getUsername();
 			}
-			
-			if ($autoLoginIsSet) {
 
-				$username = $this->cookieStorage->getCookieUsername();
-			}
-
-			
 			
 			$html = '<nav class="menu">';
 			$html .= 	'<ul>';
@@ -68,11 +62,9 @@
 			return $html;
 		}
 
-		public function renderAdminNav ($autoLoginIsSet, $onReload) {
+		public function renderAdminNav ($onReload) {
 
 			if ($onReload) {
-
-				$adminHTML = $this->renderAdminNavHTML(self::$cookieLoginSuccessMessage, $autoLoginIsSet);
 
 				if ($this->sessionModel->isLoggedIn()) {
 
@@ -81,12 +73,7 @@
 			}
 			else {
 
-				$adminHTML = $this->renderAdminNavHTML(self::$defaultLoginSuccessMessage, $autoLoginIsSet);
-
-				if ($autoLoginIsSet) {
-
-					$adminHTML = $this->renderAdminNavHTML(self::$autoLoginSuccessMessage, $autoLoginIsSet);
-				}
+				$adminHTML = $this->renderAdminNavHTML(self::$defaultLoginSuccessMessage);
 			}
 
 			echo $this->mainView->echoHTML($adminHTML);
