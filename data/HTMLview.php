@@ -23,6 +23,9 @@ class HTMLview {
 		$date .= '<p>' . $weekDay . ', ' . $month . ' ' . $year . '. ' . 'Time is ' . $time . '</p>';
 		$date .= '</div>';
 
+
+		// TODO: THE CSS URL'S HAS TO BE WRITTEN DYNAMICALLY. DID NOT HAVE TIME TO DO IT BEFORE RELEASE DEADLINE.
+				 // OR FIND A WAY TO WRITE RELATIVE PATHS AS USUAL.
         echo "
 			<!DOCTYPE html>
 			<html>
